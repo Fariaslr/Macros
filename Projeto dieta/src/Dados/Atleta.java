@@ -1,64 +1,11 @@
 package Dados;
 
-public class Atleta {
-    
-    private String cpf;
-    private String nome;
-    private int idade;
-    private float altura;
-    private float peso;
-    private String sexo;    
+public class Atleta extends Pessoa {
+        
     private float taxaMetabolicaBasal;
-    
-    public Atleta() {}
-   
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public float getAltura() {
-        return altura;
-    }
-
-    public void setAltura(float altura) {
-        this.altura = altura;
-    }
-
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
+    private float gastoEnergeticoTotal;
+    private int nivelAtividadeFisica;
+    private int objetivo;
 
     public float getTaxaMetabolicaBasal() {
         return taxaMetabolicaBasal;
@@ -67,6 +14,52 @@ public class Atleta {
     public void setTaxaMetabolicaBasal(float taxaMetabolicaBasal) {
         this.taxaMetabolicaBasal = taxaMetabolicaBasal;
     }
+
+    public float getGastoEnergeticoTotal() {
+        return gastoEnergeticoTotal;
+    }
+
+    public void setGastoEnergeticoTotal(float gastoEnergeticoTotal) {
+        this.gastoEnergeticoTotal = gastoEnergeticoTotal;
+    }
+
+    public int getNivelAtividadeFisica() {
+        return nivelAtividadeFisica;
+    }
+
+    public void setNivelAtividadeFisica(int nivelAtividadeFisica) {
+        this.nivelAtividadeFisica = nivelAtividadeFisica;
+    }
+
+    public void calculaGastoEnergeticoTotal(double GET){
+        this.gastoEnergeticoTotal = (float) (this.taxaMetabolicaBasal * GET);
+    }
+
+    public int getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(int objetivo) {
+        this.objetivo = objetivo;
+    }
+    
+    public void determinaDieta(){
+       if(objetivo == 1){
+           diminuirPeso();
+       }
+       else if(objetivo == 3){
+           aumentarPeso();
+       }
+    }
+    
+    public void diminuirPeso(){
+        this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 0.865f);
+    }
+    
+    public void aumentarPeso(){
+        this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 1.223f);
+    }
+    
     public void calculaTaxaMetabolicaBasal() {
         if(getSexo().equals("M"))
             this.taxaMetabolicaBasal = (float) (66 + (13.7 * getPeso()) + (5 * getAltura()) - (6.8 * getIdade()));
