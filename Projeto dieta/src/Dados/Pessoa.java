@@ -4,6 +4,7 @@ public class Pessoa {
     
     private String cpf;
     private String nome;
+    private String sobrenome;
     private int idade;
     private float altura;
     private float peso;
@@ -25,6 +26,14 @@ public class Pessoa {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public int getIdade() {

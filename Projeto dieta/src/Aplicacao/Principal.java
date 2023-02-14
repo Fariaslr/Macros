@@ -1,9 +1,11 @@
 package Aplicacao;
 
+import Macronutrientes.Proteinas;
+import Macronutrientes.Gorduras;
+import Macronutrientes.Macronutrientes;
+import Macronutrientes.Carboidratos;
 import Dados.Atleta;
 import Validacoes.*;
-
-import MacroNutrientes.*;
 
 import java.util.Scanner;
 
@@ -18,6 +20,7 @@ public class Principal {
         Atleta atleta = new Atleta();
         
         // Instâncias de macronutrientes
+        Macronutrientes macro = new Macronutrientes();
         Proteinas proteinas = new Proteinas(atleta.getObjetivo());    
         Carboidratos carboidratos = new Carboidratos(atleta.getObjetivo());
         Gorduras gorduras = new Gorduras(atleta.getObjetivo());        
@@ -43,8 +46,8 @@ public class Principal {
             validaNome.isName(atleta.getNome());
             if(validaNome.isName(atleta.getNome()) == false)
                 System.out.printf("Contém caracter inválido\nInsira novamente!\n\n");
-        } while(validaNome.isName(atleta.getNome()) == false); 
- */
+        } while(validaNome.isName(atleta.getNome()) == false); */
+ 
          // Entrada da idade    
          do {            
              System.out.printf("Idade: ");
@@ -112,7 +115,7 @@ public class Principal {
         } while (atleta.getNivelAtividadeFisica() < 1 || atleta.getNivelAtividadeFisica() > 5);
         
          do {            
-             System.out.printf("Qual é o seu objetivo?\n"
+             System.out.printf("\nQual é o seu objetivo?\n"
                      + "[1] Perda de gordura\n"
                      + "[2] Manutenção\n"
                      + "[3] Aumento do peso\n");
@@ -120,13 +123,32 @@ public class Principal {
              atleta.determinaDieta();  
         } while (atleta.getObjetivo() < 1 || atleta.getObjetivo() > 3);
          
+         do {            
+             System.out.printf("\nÉ recomendado fazer várias refeições por dia\n"
+                     + "Quantas refeições por dia?\n");
+             macro.setQuantidadeRefeicao(scanf.nextInt());
+        } while (macro.getQuantidadeRefeicao() < 2 || macro.getQuantidadeRefeicao() > 7);
+         
+         // Passa o valor do gasto energetico para classes de macronutrientes
          proteinas.calculaPorcoesCaloricas(atleta.getGastoEnergeticoTotal());
          carboidratos.calculaPorcoesCaloricas(atleta.getGastoEnergeticoTotal());
          gorduras.calculaPorcoesCaloricas(atleta.getGastoEnergeticoTotal());
          
-         System.out.printf("%s, a sua necessidade calorica diaria %.2f Kcal\n",atleta.getNome(),atleta.getGastoEnergeticoTotal());
-         proteinas.imprime();
-         carboidratos.imprime();
-         gorduras.imprime();
+         System.out.printf("%s, a sua necessidade calorica diaria %.2f Kcal\n",atleta.getNome(),
+                 atleta.getGastoEnergeticoTotal());
+         proteinas.imprimeGramasTotais();
+         carboidratos.imprimeGramasTotais();
+         gorduras.imprimeGramasTotais();
+         
+         // Métodos para calcular gramas por refeição
+         proteinas.calculaGramasPorRefeicao(macro.getQuantidadeRefeicao());
+         carboidratos.calculaGramasPorRefeicao(macro.getQuantidadeRefeicao());
+         gorduras.calculaGramasPorRefeicao(macro.getQuantidadeRefeicao());
+         
+         System.out.printf("\n\nEssa é a sua divisão em %d refeições:\n",macro.getQuantidadeRefeicao());
+         proteinas.imprimeGramasPorRefeicao();
+         carboidratos.imprimeGramasPorRefeicao();
+         gorduras.imprimeGramasPorRefeicao();
+         
     }
 }
