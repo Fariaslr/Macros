@@ -26,8 +26,38 @@ public class ValidaNome {
              if(contadorMaiuscula > 1){
                  return false;
              }else
-                
                  return true;
-        }return true;
+        }
+         return true;
+    }
+    
+    public boolean isLastName(String sobrenome){
+        
+        for( int i = 0; i < sobrenome.length(); i++ ){
+            
+            if(sobrenome.length() < 3){
+                System.out.println("Sobrenome curto!");
+                 return false;
+             }
+            
+            if(sobrenome.codePointAt(i) >= 33 && sobrenome.codePointAt(i) <= 64 
+                     || sobrenome.codePointAt(i) >= 91 && sobrenome.codePointAt(i) <= 96 ){ // Verifica caracteres especiais
+                System.out.println("Contém caracteres inválidos");
+                 return false;  
+             } 
+            
+        }
+        return true;
+        
+    }
+      
+     public static boolean isSexo(String sexo){
+        if(sexo.length() ==  1){
+            if(sexo.equals("F") || sexo.equals("M")){
+                return true;
+            }
+        }
+        System.out.println("Insira 'M ou 'F'");
+        return false;
     }
 }

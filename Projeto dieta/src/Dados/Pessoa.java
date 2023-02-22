@@ -5,9 +5,9 @@ public class Pessoa {
     private String cpf;
     private String nome;
     private String sobrenome;
-    private int idade;
-    private float altura;
-    private float peso;
+    private byte idade;
+    private short altura;
+    private short peso;
     private String sexo;    
     
     public Pessoa() {}
@@ -36,27 +36,27 @@ public class Pessoa {
         this.sobrenome = sobrenome;
     }
 
-    public int getIdade() {
+    public byte getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(byte idade) {
         this.idade = idade;
     }
 
-    public float getAltura() {
+    public short getAltura() {
         return altura;
     }
 
-    public void setAltura(float altura) {
+    public void setAltura(short altura) {
         this.altura = altura;
     }
 
-    public float getPeso() {
+    public short getPeso() {
         return peso;
     }
 
-    public void setPeso(float peso) {
+    public void setPeso(short peso) {
         this.peso = peso;
     }
 
@@ -67,4 +67,6 @@ public class Pessoa {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
+
+       
 }

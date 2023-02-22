@@ -4,8 +4,8 @@ public class Atleta extends Pessoa {
         
     private float taxaMetabolicaBasal;
     private float gastoEnergeticoTotal;
-    private int nivelAtividadeFisica;
-    private int objetivo;
+    private byte nivelAtividadeFisica;
+    private byte objetivo;
 
     public float getTaxaMetabolicaBasal() {
         return taxaMetabolicaBasal;
@@ -23,24 +23,24 @@ public class Atleta extends Pessoa {
         this.gastoEnergeticoTotal = gastoEnergeticoTotal;
     }
 
-    public int getNivelAtividadeFisica() {
+    public byte getNivelAtividadeFisica() {
         return nivelAtividadeFisica;
     }
 
-    public void setNivelAtividadeFisica(int nivelAtividadeFisica) {
+    public void setNivelAtividadeFisica(byte nivelAtividadeFisica) {
         this.nivelAtividadeFisica = nivelAtividadeFisica;
+    }
+
+    public byte getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(byte objetivo) {
+        this.objetivo = objetivo;
     }
 
     public void calculaGastoEnergeticoTotal(double GET){
         this.gastoEnergeticoTotal = (float) (this.taxaMetabolicaBasal * GET);
-    }
-
-    public int getObjetivo() {
-        return objetivo;
-    }
-
-    public void setObjetivo(int objetivo) {
-        this.objetivo = objetivo;
     }
     
     public void determinaDieta(){
