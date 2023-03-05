@@ -30,15 +30,15 @@ public class Principal {
         do {  
             System.out.printf("CPF: ");
             atleta.setCpf(scanf.nextLine());
-        } while(validaCpf.isCPF(atleta.getCpf()) == false);
+        } while(ValidaCpf.isCPF(atleta.getCpf()) == false);
 
          // Entrada do Nome
         do {  
             System.out.printf("Nome: ");
             atleta.setNome(scanf.nextLine());
-        } while(validaNome.isName(atleta.getNome()) == false); 
+        } while(ValidaNome.isName(atleta.getNome()) == false); 
         
-        // Entrada do Nome
+        // Entrada do Sobrenome
         do {  
             System.out.printf("Sobrenome: ");
             atleta.setSobrenome(scanf.nextLine());
@@ -66,7 +66,7 @@ public class Principal {
          do {
              System.out.printf("Sexo(M/F): ");
              atleta.setSexo(scanf.next().toUpperCase());
-         } while(validaNome.isSexo(atleta.getSexo()) ==  false);
+         } while(ValidaNome.isSexo(atleta.getSexo()) ==  false);
          
         // Método para calcular a taxa metabolica basal
         atleta.calculaTaxaMetabolicaBasal();

@@ -2,18 +2,14 @@ package Pessoa;
 
 import java.util.Date;
 
-public class Pessoa {
+public class Pessoa extends Endereco{
     
     private String cpf;
     private String nome;
     private String sobrenome;
     private Date dataDeNascimento;
     private String sexo;
-    int codigoEndereco;
 
-    public Pessoa(int codigoEndereco) {
-        this.codigoEndereco = codigoEndereco;
-    }
         
     public String getCpf() {
         return cpf;
@@ -53,15 +49,6 @@ public class Pessoa {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
-    }
-
-    public int getCodigoEndereco() {
-        return codigoEndereco;
-    }
-
-    public void setCodigoEndereco(int codigoEndereco) {
-        this.codigoEndereco = codigoEndereco;
-    }
-    
+    }   
     
 }
