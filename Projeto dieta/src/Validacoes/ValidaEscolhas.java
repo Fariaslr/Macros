@@ -3,7 +3,7 @@ package Validacoes;
 
 public class ValidaEscolhas {
     
-    public boolean isActivity(byte nivelAtividade){
+    public boolean isActivity(int nivelAtividade){
         
         if(nivelAtividade < 1 || nivelAtividade > 5 ){
             System.out.println("Nível inválido!");
@@ -12,7 +12,7 @@ public class ValidaEscolhas {
             return true;
     }
 
-    public boolean isObjective(byte objetivo) {
+    public boolean isObjective(int objetivo) {
         
         if(objetivo < 1 || objetivo > 3){
            return false; 
