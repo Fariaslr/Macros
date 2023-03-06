@@ -2,7 +2,11 @@ package Registros;
 
 import Pessoa.Paciente;
 import Validacoes.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RegistroPaciente extends RegistroNutricionista{
 
@@ -21,8 +25,9 @@ public class RegistroPaciente extends RegistroNutricionista{
         // Instância de valicações
         ValidaString validaNome = new ValidaString();
         ValidaCpf validaCpf = new ValidaCpf();
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
         
-        System.out.println("\tCADASTRO PACIENTE");
+        System.out.println("\n---------------CADASTRO PACIENTE---------------");
         do {
             System.out.printf("CPF : ");
             paciente.setCpf(scanf.nextLine());
@@ -48,17 +53,23 @@ public class RegistroPaciente extends RegistroNutricionista{
             paciente.setEmail(scanf.next());
         } while (false);
 
-        do {
-            /*System.out.printf("Data de nascimento: ");
-            paciente.setDataDeNascimento(scanf.findAll(pattern));
-        } while (true);
+        */
+        //do {            
+            try {
+                System.out.printf("Data de nascimento(dd/mm/aaaa): ");
+                paciente.setDataDeNascimento(data.parse(scanf.next()));
+                System.out.println(paciente.getDataDeNascimento());
+            } catch (ParseException ex) {
+                System.out.println("Data inválida!");
+            }
+        //} while (true);
 
         do {
             System.out.printf("Sexo(M/F): ");
             paciente.setSexo(scanf.next().toUpperCase());
         } while (ValidaString.isSexo(paciente.getSexo()) == false);
         
-         do {           
+         /*do {           
              System.out.printf("Longradouro:");
              paciente.setLongradouro(scanf.next());
         } while (true); 
@@ -87,8 +98,9 @@ public class RegistroPaciente extends RegistroNutricionista{
           System.out.printf("CEP:");  
           paciente.setCep(scanf.next());
         } while (true);*/
+         
         paciente.setCodigoEndereco(geradorNumeros.nextInt(9999));
         
-        System.out.println("\tCADASTRO PACIENTE FINALIZADO");
+        System.out.println("---------------CADASTRO PACIENTE FINALIZADO---------------\n");
     }
 }

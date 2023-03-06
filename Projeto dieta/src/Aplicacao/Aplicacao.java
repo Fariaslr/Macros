@@ -17,5 +17,7 @@ public class Aplicacao {
         registroPaciente.registro();
         montaPlano.montandoPlano();
         realizaConsulta.fazendoConsulta();
+        
+        
     }
 }

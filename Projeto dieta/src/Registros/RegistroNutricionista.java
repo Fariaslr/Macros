@@ -2,12 +2,13 @@ package Registros;
 
 import Pessoa.*;
 import Validacoes.*;
+import java.text.*;
 import java.util.*;
 
 public class RegistroNutricionista {
 
     public void registro() {
-
+        
         // Instância objeto
         Nutricionista nutri = new Nutricionista();
 
@@ -18,11 +19,13 @@ public class RegistroNutricionista {
         Random geradorNumeros = new Random();
 
         // Instância de valicações
-        ValidaString validaNome = new ValidaString();
-        ValidaCpf validaCpf = new ValidaCpf();
+        ValidaString validaString = new ValidaString();
+        ValidaCpf ValidaCpf;
+        ValidaCpf = new ValidaCpf();
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
         
-        System.out.println("\tCADASTRO NUTRICIONISTA");
-        do {
+        System.out.println("---------------CADASTRO NUTRICIONISTA--------------");
+       do {
             System.out.printf("CPF: ");
             nutri.setCpf(scanf.nextLine());
         } while (ValidaCpf.isCPF(nutri.getCpf()) == false);
@@ -34,18 +37,25 @@ public class RegistroNutricionista {
         do {
             System.out.printf("Nome: ");
             nutri.setNome(scanf.nextLine());
-        } while (ValidaString.isName(nutri.getNome()) == false);
+        } while (validaString.isName(nutri.getNome()) == false);
 
         do {
             System.out.printf("Sobrenome: ");
             nutri.setSobrenome(scanf.nextLine());
-        } while (validaNome.isLastName(nutri.getSobrenome()) == false);
-
-        /* Data de nascimento nutricionista   
+        } while (validaString.isLastName(nutri.getSobrenome()) == false);
+        
+        boolean erro = false;
          do {            
-             System.out.printf("Idade: ");
-             nutri.setDataDeNascimento();
-        } while (true); Armazenar data de nascimento*/
+             try {
+                System.out.printf("Data de nascimento(dd/mm/aaaa): ");
+                nutri.setDataDeNascimento(data.parse(scanf.next()));
+                System.out.println(data.format(nutri.getDataDeNascimento()));
+            } catch (ParseException ex) {
+                System.out.println("Data inválida!");
+               erro = true;
+            }
+        } while (erro);
+        
         do {
             System.out.printf("Sexo(M/F): ");
             nutri.setSexo(scanf.next().toUpperCase());
@@ -83,7 +93,7 @@ public class RegistroNutricionista {
         } while (true);*/
         
         nutri.setCodigoEndereco(9999);
+        System.out.println("--------------CADASTRO NUTRICIONISTA FINALIZADO--------------\n");
         
-        System.out.println("\tCADASTRO NUTRICIONISTA FINALIZADO");
     }
 }

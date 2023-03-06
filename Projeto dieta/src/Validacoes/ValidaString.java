@@ -8,7 +8,8 @@ public class ValidaString {
 
          for( int i = 0; i < nome.length(); i++ ){
              
-             if(nome.length() < 5){
+             if(nome.length() < 3){
+                 System.out.println("Nome curto!");
                  return false;
              } 
              
@@ -17,6 +18,7 @@ public class ValidaString {
              }
              if(nome.codePointAt(i) >= 33 && nome.codePointAt(i) <= 64 
                      || nome.codePointAt(i) >= 91 && nome.codePointAt(i) <= 96 ){ // Verifica caracteres especiais
+                 System.out.println("Contém caracteres inválidos");
                  return false;  
              }   
              

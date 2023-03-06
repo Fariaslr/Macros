@@ -7,6 +7,7 @@ public class Consulta {
     private int codigoConsulta;
     private int codigoPlano;
     private Date dataConsulta;
+    private int idade;
     private float peso;
     private int altura;
     private int nivelAtividade;
@@ -48,6 +49,14 @@ public class Consulta {
 
     public void setDataConsulta(Date dataConsulta) {
         this.dataConsulta = dataConsulta;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
     public float getPeso() {
