@@ -24,7 +24,7 @@ public class RegistroNutricionista {
         ValidaCpf = new ValidaCpf();
         SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
         
-        System.out.println("---------------CADASTRO NUTRICIONISTA--------------");
+        System.out.println("--------------CADASTRO NUTRICIONISTA--------------");
        do {
             System.out.printf("CPF: ");
             nutri.setCpf(scanf.nextLine());
