@@ -54,7 +54,7 @@ public class RegistroNutricionista {
                 System.out.println("Data inválida!");
                erro = true;
             }
-        } while (erro);
+        } while (erro ==  true);
         
         do {
             System.out.printf("Sexo(M/F): ");
@@ -92,6 +92,7 @@ public class RegistroNutricionista {
           nutri.setCep(scanf.next());
         } while (true);*/
         
+        // Insere o codigo do endereço
         nutri.setCodigoEndereco(9999);
         System.out.println("--------------CADASTRO NUTRICIONISTA FINALIZADO--------------\n");
         

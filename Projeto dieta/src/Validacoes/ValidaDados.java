@@ -19,8 +19,8 @@ public class ValidaDados {
         return true;
     }
     
-    public boolean isWeight (int peso) {
-        if(peso < 30 || peso > 240){
+    public boolean isWeight (float peso) {
+        if(peso < 25 || peso > 240){
             return false;
         }
         return true;

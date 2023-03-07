@@ -10,10 +10,10 @@ public class Consulta {
     private int idade;
     private float peso;
     private int altura;
-    private int nivelAtividade;
+    private int nivelAtividadeFisica;
     private float taxaMetabolicaBasal;
+    private int numeroRefeicoes;    
     private float gastoEnergeticoTotal;
-    private int numeroRefeicoes;
     private float circunferenciaAbdominal;
     private float circunferenciaBraco;
     private float circunferenciaPerna;
@@ -75,12 +75,12 @@ public class Consulta {
         this.altura = altura;
     }
 
-    public int getNivelAtividade() {
-        return nivelAtividade;
+    public int getNivelAtividadeFisica() {
+        return nivelAtividadeFisica;
     }
 
-    public void setNivelAtividade(int nivelAtividade) {
-        this.nivelAtividade = nivelAtividade;
+    public void setNivelAtividadeFisica(int nivelAtividadeFisica) {
+        this.nivelAtividadeFisica = nivelAtividadeFisica;
     }
 
     public float getTaxaMetabolicaBasal() {
@@ -171,5 +171,27 @@ public class Consulta {
         this.valorDiarioGordura = valorDiarioGordura;
     }
     
+    public void calculaTaxaMetabolicaBasal(String sexo){
+        if(sexo.equals("M"))
+            this.taxaMetabolicaBasal = (float) (66 + (13.7 * getPeso()) + (5 * getAltura()) - (6.8 * getIdade()));
+        if(sexo.equals("F"))
+            this.taxaMetabolicaBasal = (float) (655 + (9.6 * getPeso()) + (1.8 * getAltura()) - (4.7 * getIdade()));
+    }
     
+    public void calculaGastoEnergeticoTotal(float IndiceNivelAtividade){
+        this.gastoEnergeticoTotal = (float) (this.taxaMetabolicaBasal * IndiceNivelAtividade);
+    }
+    
+    public void determinaDieta(int objetivo){
+        if(objetivo == 1) diminuirPeso();
+        if(objetivo == 3) aumentarPeso();
+    }
+    
+     public void diminuirPeso(){
+        this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 0.865f);
+    }
+    
+    public void aumentarPeso(){
+        this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 1.223f);
+    }
 }

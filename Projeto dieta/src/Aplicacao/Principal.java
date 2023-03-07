@@ -22,7 +22,7 @@ public class Principal {
         
         // Instâncias de validação
         ValidaCpf validaCpf = new ValidaCpf();
-        ValidaNome validaNome = new ValidaNome();
+        ValidaString validaNome = new ValidaString();
         ValidaDados validaDados = new ValidaDados();
         ValidaEscolhas validaEscolhas = new ValidaEscolhas();
         
@@ -30,13 +30,13 @@ public class Principal {
         do {  
             System.out.printf("CPF: ");
             atleta.setCpf(scanf.nextLine());
-        } while(ValidaCpf.isCPF(atleta.getCpf()) == false);
+        } while(validaCpf.isCPF(atleta.getCpf()) == false);
 
          // Entrada do Nome
         do {  
             System.out.printf("Nome: ");
             atleta.setNome(scanf.nextLine());
-        } while(ValidaNome.isName(atleta.getNome()) == false); 
+        } while(validaNome.isName(atleta.getNome()) == false); 
         
         // Entrada do Sobrenome
         do {  
@@ -66,7 +66,7 @@ public class Principal {
          do {
              System.out.printf("Sexo(M/F): ");
              atleta.setSexo(scanf.next().toUpperCase());
-         } while(ValidaNome.isSexo(atleta.getSexo()) ==  false);
+         } while(validaNome.isSexo(atleta.getSexo()) ==  false);
          
         // Método para calcular a taxa metabolica basal
         atleta.calculaTaxaMetabolicaBasal();
