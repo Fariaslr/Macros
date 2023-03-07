@@ -23,8 +23,8 @@ public class Principal {
         // Instâncias de validação
         ValidaCpf validaCpf = new ValidaCpf();
         ValidaString validaNome = new ValidaString();
-        ValidaDados validaDados = new ValidaDados();
-        ValidaEscolhas validaEscolhas = new ValidaEscolhas();
+        ValidaReais validaDados = new ValidaReais();
+        ValidaInteiro validaEscolhas = new ValidaInteiro();
         
          // Entrada do CPF
         do {  

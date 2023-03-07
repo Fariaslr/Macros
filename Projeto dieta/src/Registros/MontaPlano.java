@@ -1,6 +1,6 @@
 package Registros;
 
-import Triagem.Plano;
+import Triagem.*;
 import Pessoa.*;
 import Validacoes.*;
 import java.util.*;
@@ -21,7 +21,7 @@ public class MontaPlano {
         Random geradorNumeros = new Random();
 
         // Instância de validação
-        ValidaEscolhas validaEscolhas = new ValidaEscolhas();
+        ValidaInteiro validaEscolhas = new ValidaInteiro();
         
         plano.setCodigoPlano(geradorNumeros.nextInt(9999));
         plano.setDataPlano(new Date());

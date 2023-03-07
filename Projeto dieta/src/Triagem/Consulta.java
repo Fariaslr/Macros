@@ -1,9 +1,9 @@
 package Triagem;
 
-import java.util.Date;
+import java.util.*;
 
 public class Consulta {
-    
+
     private int codigoConsulta;
     private int codigoPlano;
     private Date dataConsulta;
@@ -12,18 +12,18 @@ public class Consulta {
     private int altura;
     private int nivelAtividadeFisica;
     private float taxaMetabolicaBasal;
-    private int numeroRefeicoes;    
+    private int numeroRefeicoes;
     private float gastoEnergeticoTotal;
     private float circunferenciaAbdominal;
     private float circunferenciaBraco;
     private float circunferenciaPerna;
-    private float medidaGorduraBarriga;       
+    private float medidaGorduraBarriga;
     private float medidaGorduraCostas;
     private float valorDiarioProteina;
     private float valorDiarioCarboidrato;
     private float valorDiarioGordura;
 
-    public Consulta( int codigoPlano) {
+    public Consulta(int codigoPlano) {
         this.codigoPlano = codigoPlano;
     }
 
@@ -170,28 +170,34 @@ public class Consulta {
     public void setValorDiarioGordura(float valorDiarioGordura) {
         this.valorDiarioGordura = valorDiarioGordura;
     }
-    
-    public void calculaTaxaMetabolicaBasal(String sexo){
-        if(sexo.equals("M"))
+
+    public void calculaTaxaMetabolicaBasal(String sexo) {
+        if (sexo.equals("M")) {
             this.taxaMetabolicaBasal = (float) (66 + (13.7 * getPeso()) + (5 * getAltura()) - (6.8 * getIdade()));
-        if(sexo.equals("F"))
+        }
+        if (sexo.equals("F")) {
             this.taxaMetabolicaBasal = (float) (655 + (9.6 * getPeso()) + (1.8 * getAltura()) - (4.7 * getIdade()));
+        }
     }
-    
-    public void calculaGastoEnergeticoTotal(float IndiceNivelAtividade){
+
+    public void calculaGastoEnergeticoTotal(float IndiceNivelAtividade) {
         this.gastoEnergeticoTotal = (float) (this.taxaMetabolicaBasal * IndiceNivelAtividade);
     }
-    
-    public void determinaDieta(int objetivo){
-        if(objetivo == 1) diminuirPeso();
-        if(objetivo == 3) aumentarPeso();
+
+    public void determinaDieta(int objetivo) {
+        if (objetivo == 1) {
+            diminuirPeso();
+        }
+        if (objetivo == 3) {
+            aumentarPeso();
+        }
     }
-    
-     public void diminuirPeso(){
+
+    public void diminuirPeso() {
         this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 0.865f);
     }
-    
-    public void aumentarPeso(){
+
+    public void aumentarPeso() {
         this.gastoEnergeticoTotal = (gastoEnergeticoTotal * 1.223f);
     }
 }

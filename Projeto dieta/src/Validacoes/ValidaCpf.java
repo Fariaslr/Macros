@@ -10,7 +10,7 @@ public class ValidaCpf {
             CPF.equals("44444444444") || CPF.equals("55555555555") ||
             CPF.equals("66666666666") || CPF.equals("77777777777") ||
             CPF.equals("88888888888") || CPF.equals("99999999999")){
-            System.out.printf("CPF inválido!\n");
+            System.out.printf("Sequência de cpf é inválido");
             return(false);
         }
 
