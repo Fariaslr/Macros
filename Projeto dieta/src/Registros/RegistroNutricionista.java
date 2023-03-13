@@ -31,7 +31,7 @@ public class RegistroNutricionista {
         } while (ValidaCpf.isCPF(nutri.getCpf()) == false);
 
         System.out.printf("CRN: ");
-        nutri.setRegistroNutricionista(geradorNumeros.nextInt(9999));
+        nutri.setRegistroNutricionista(geradorNumeros.nextInt());
         System.out.println(nutri.getRegistroNutricionista());
 
         do {

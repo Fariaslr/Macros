@@ -1,6 +1,5 @@
 package dao;
 
-import Registros.RegistroNutricionista;
 import conexao.ConexaoMySQL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,20 +7,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import Pessoa.*;
+import modelo.Contato;
 
-public class NutricionistaDAOJDBC implements nutricionistaDAO {
+public class ContatoDAOJDBC implements nutricionistaDAO {
     
     Connection conexao = null;
     PreparedStatement sql = null;
     ResultSet rset = null;
 
-   // @Override
-    public int inserir(Nutricionista nutri) {
+    @Override
+    public int inserir(Contato contato) {
         
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder
-                .append("INSERT INTO registro(nome, idade, datacadastro) ")
+                .append("INSERT INTO contatos(nome, idade, datacadastro) ")
                 .append("VALUES (?, ?, ?)");
      
         String insert = sqlBuilder.toString();
