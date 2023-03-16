@@ -3,7 +3,7 @@ create database macros2;
 use macros2;
 
 create table endereco(
-	codigoEndereco int auto_increment primary key,
+    codigoEndereco int auto_increment primary key,
     logradouro varchar(50),
     complemento varchar(50),
     numero int,

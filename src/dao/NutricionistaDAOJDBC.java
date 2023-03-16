@@ -21,7 +21,7 @@ public class NutricionistaDAOJDBC implements nutricionistaDAO {
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder
                 .append("INSERT INTO nutricionista(cpfNutricionista,registroNutricionista,nomeNutricionista,sobrenomeNutricionista,dataNascimento,sexo) ")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+                .append("VALUES (?, ?, ?, ?, ?, ?)");
         
         String insert = sqlBuilder.toString();
         int linha = 0;
@@ -126,7 +126,7 @@ public class NutricionistaDAOJDBC implements nutricionistaDAO {
                 sql.setDate(5, (Date) nutri.getDataDeNascimento());
                 sql.setString(6,nutri.getSexo());
 
-                Nutricionista.add(nutricionista);
+                nutricionista.add(nutri);
 
             }
         } catch (Exception e) {

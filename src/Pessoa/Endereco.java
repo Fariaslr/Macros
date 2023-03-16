@@ -3,13 +3,13 @@ package Pessoa;
 public abstract class Endereco {
 
     private int codigoEndereco;
-    private String cep;
     private String longradouro;
     private String complemento;
     private int numero;
     private String bairro;
     private String cidade;
     private String estado;
+    private String cep;
 
     public int getCodigoEndereco() {
         return codigoEndereco;

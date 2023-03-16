@@ -42,6 +42,31 @@ public class PacienteDAOJDBC implements PacienteDAO {
         } finally {
             fecharConexao();
         }
+        
+        sqlBuilder
+                .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+        linha = 0;
+        try {
+            conexao = ConexaoMySQL.getConexao();
+
+            sql = (PreparedStatement) conexao.prepareStatement(insert);
+            sql.setInt(1, paciente.getCodigoEndereco());
+            sql.setString(2, paciente.getLongradouro());
+            sql.setString(3, paciente.getComplemento());
+            sql.setInt(4, paciente.getNumero());
+            sql.setString(5, paciente.getBairro());
+            sql.setString(6, paciente.getCidade());
+            sql.setString(7, paciente.getEstado());
+            sql.setString(8, paciente.getCep());
+
+            linha = sql.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            fecharConexao();
+        }
 
         return linha;
     }
