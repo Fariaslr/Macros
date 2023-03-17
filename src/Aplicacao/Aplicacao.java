@@ -6,6 +6,8 @@ public class Aplicacao {
 
     public static void main(String[] args) throws ParseException {
         
-       new CadastrarPaciente().setVisible(true);
+       new Nutricionista().setVisible(true);
+       new Paciente().setVisible(true);
+       
     }
 }
