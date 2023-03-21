@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Pessoa.*;
 
-public class NutricionistaDAOJDBC implements nutricionistaDAO {
+public class NutricionistaDAOJDBC implements NutricionistaDAO {
     
     Connection conexao = null;
     PreparedStatement sql = null;
