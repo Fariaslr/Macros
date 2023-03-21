@@ -4,6 +4,10 @@
  */
 package Aplicacao;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Pichau
@@ -34,6 +38,8 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela Login");
+        setMaximumSize(new java.awt.Dimension(605, 350));
+        setMinimumSize(new java.awt.Dimension(605, 350));
 
         jPanel1.setToolTipText("Tela de login");
         jPanel1.setMaximumSize(new java.awt.Dimension(600, 350));
@@ -90,13 +96,20 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPacienteMouseClicked
-        // TODO add your handling code here:
+        try {
+            new CadastraPaciente().setVisible(true);
+        } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_buttonPacienteMouseClicked
 
     private void ButtonNutriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonNutriMouseClicked
-        // TODO add your handling code here:
-        
+        try {
+            new CadastraNutricionista().setVisible(true);
+        } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ButtonNutriMouseClicked
 
     /**
