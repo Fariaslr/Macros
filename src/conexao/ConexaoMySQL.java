@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class ConexaoMySQL {
     private static final String USUARIO = "root";
-    private static final String SENHA = "123456";
+    private static final String SENHA = "root";
     private static final String URL_BANCO = "jdbc:mysql://localhost:3306/macros";
     
     public static Connection getConexao() throws Exception {

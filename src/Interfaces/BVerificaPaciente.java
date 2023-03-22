@@ -40,6 +40,9 @@ public class BVerificaPaciente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(441, 260));
+        setMinimumSize(new java.awt.Dimension(441, 260));
+        setPreferredSize(new java.awt.Dimension(441, 260));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -141,7 +144,7 @@ public class BVerificaPaciente extends javax.swing.JFrame {
         if (paciente != null) {
             JOptionPane.showMessageDialog(this, "Contato inserido com sucesso!");
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao inserir Contato.");
+            JOptionPane.showMessageDialog(this, "CPF não cadastrado.");
         }
 
     }//GEN-LAST:event_jButtonEnviarActionPerformed

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package Interfaces;
+import dao.NutricionistaDAO;
+import dao.NutricionistaDAOJDBC;
 
 /**
  *
@@ -38,8 +40,12 @@ public class CVerificaNutri extends javax.swing.JFrame {
         jTextFieldMensagem.setBorder(null);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(314, 302));
+        setMinimumSize(new java.awt.Dimension(314, 302));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMaximumSize(new java.awt.Dimension(314, 302));
+        jPanel1.setMinimumSize(new java.awt.Dimension(314, 302));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Nutricionista");
@@ -109,7 +115,7 @@ public class CVerificaNutri extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        NutricionistaDAO nutriProcurado = new NutricionistaDAOJDBC();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextFieldCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCpfActionPerformed
