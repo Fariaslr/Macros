@@ -1,6 +1,6 @@
-create database macros2;
+create database macros;
 
-use macros2;
+use macros;
 
 create table endereco(
     codigoEndereco int auto_increment primary key,
@@ -129,5 +129,3 @@ alter table itensRefeicao
 add constraint fkItensRefeicaoCodigoConsulta foreign key (codigoConsulta) references consulta(codigoConsulta);
 alter table itensRefeicao
 add constraint fkItensRefeicaoCodigoAlimento foreign key (codigoAlimento) references alimentos(codigoAlimento);
-
-select * from itensRefeicao;

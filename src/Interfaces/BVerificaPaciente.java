@@ -5,6 +5,12 @@
  */
 package Interfaces;
 
+import Pessoa.Paciente;
+import dao.PacienteDAO;
+import dao.PacienteDAOJDBC;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author aluno
@@ -31,9 +37,9 @@ public class BVerificaPaciente extends javax.swing.JFrame {
         jLabelLogin = new javax.swing.JLabel();
         jTextFieldCpf = new javax.swing.JTextField();
         jButtonEnviar = new javax.swing.JButton();
-        jTextFieldMensagem = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -46,6 +52,11 @@ public class BVerificaPaciente extends javax.swing.JFrame {
                 jTextFieldCpfActionPerformed(evt);
             }
         });
+        jTextFieldCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldCpfKeyPressed(evt);
+            }
+        });
 
         jButtonEnviar.setText("Enviar");
         jButtonEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -53,14 +64,13 @@ public class BVerificaPaciente extends javax.swing.JFrame {
                 jButtonEnviarActionPerformed(evt);
             }
         });
-
-        jTextFieldMensagem.setText("Coloque seu cpf para verificarmos.");
-        jTextFieldMensagem.setBorder(null);
-        jTextFieldMensagem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldMensagemActionPerformed(evt);
+        jButtonEnviar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonEnviarKeyPressed(evt);
             }
         });
+
+        jLabel1.setText("Coloque seu cpf para verificarmos.");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,8 +92,8 @@ public class BVerificaPaciente extends javax.swing.JFrame {
                         .addGap(147, 147, 147)
                         .addComponent(jLabelLogin))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jTextFieldMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,7 +102,7 @@ public class BVerificaPaciente extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabelLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(31, 31, 31)
-                .addComponent(jTextFieldMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,56 +136,45 @@ public class BVerificaPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldCpfActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
-        
+        PacienteDAO pacienteProcurado = new PacienteDAOJDBC();
+        Paciente paciente = pacienteProcurado.encontrar(jTextFieldCpf.getText());
+        if (paciente != null) {
+            JOptionPane.showMessageDialog(this, "Contato inserido com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir Contato.");
+        }
+
     }//GEN-LAST:event_jButtonEnviarActionPerformed
 
-    private void jTextFieldMensagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMensagemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldMensagemActionPerformed
+    private void jButtonEnviarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonEnviarKeyPressed
+
+    }//GEN-LAST:event_jButtonEnviarKeyPressed
+
+    private void jTextFieldCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCpfKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            try {
+                PacienteDAO pacienteProcurado = new PacienteDAOJDBC();
+                Paciente paciente = pacienteProcurado.encontrar(jTextFieldCpf.getText());
+                if (paciente != null) {
+                    JOptionPane.showMessageDialog(this, "Contato inserido com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir Contato.");
+                }
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_jTextFieldCpfKeyPressed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BVerificaPaciente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BVerificaPaciente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BVerificaPaciente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BVerificaPaciente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BVerificaPaciente().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnviar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelLogin;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldCpf;
-    private javax.swing.JTextField jTextFieldMensagem;
     // End of variables declaration//GEN-END:variables
 }

@@ -43,6 +43,7 @@ public class ALogin extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         ButtonNutri.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/button.png"))); // NOI18N
+        ButtonNutri.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ButtonNutri.setMaximumSize(new java.awt.Dimension(120, 35));
         ButtonNutri.setMinimumSize(new java.awt.Dimension(100, 30));
         ButtonNutri.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -54,6 +55,7 @@ public class ALogin extends javax.swing.JFrame {
         ButtonNutri.setBounds(370, 260, 200, 70);
 
         buttonPaciente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Paciente.png"))); // NOI18N
+        buttonPaciente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonPacienteMouseClicked(evt);
@@ -104,44 +106,7 @@ public class ALogin extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ALogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ALogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ALogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ALogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ALogin().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ButtonNutri;

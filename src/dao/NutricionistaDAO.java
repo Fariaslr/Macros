@@ -7,8 +7,8 @@ public interface NutricionistaDAO {
     
     public int inserir(Nutricionista nutri);
     public int editar(Nutricionista nutri);
-    public int apagar(String cpf);
-    public List<Nutricionista> listar();
+    public int apagar(String cpf, int codigoEndereco);
+    public List<Nutricionista> listar(int codigoEndereco);
     public Nutricionista encontrar(String cpf);
     
 }

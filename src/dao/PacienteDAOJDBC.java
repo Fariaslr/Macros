@@ -15,6 +15,7 @@ public class PacienteDAOJDBC implements PacienteDAO {
     PreparedStatement sql = null;
     ResultSet rset = null;
 
+    @Override
     public int inserir(Paciente paciente) {
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -35,21 +36,10 @@ public class PacienteDAOJDBC implements PacienteDAO {
             sql.setString(5, paciente.getEmail());
             sql.setDate(6, (new Date (paciente.getDataDeNascimento().getTime())));
             sql.setString(7, paciente.getSexo());
-
-            linha = sql.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            fecharConexao();
-        }
-        
-        sqlBuilder
+                
+            sqlBuilder
                 .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
                 .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
-        linha = 0;
-        try {
-            conexao = ConexaoMySQL.getConexao();
 
             sql = (PreparedStatement) conexao.prepareStatement(insert);
             sql.setInt(1, paciente.getCodigoEndereco());
@@ -60,14 +50,14 @@ public class PacienteDAOJDBC implements PacienteDAO {
             sql.setString(6, paciente.getCidade());
             sql.setString(7, paciente.getEstado());
             sql.setString(8, paciente.getCep());
-
+       
             linha = sql.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             fecharConexao();
         }
-
+    
         return linha;
     }
 
@@ -150,7 +140,7 @@ public class PacienteDAOJDBC implements PacienteDAO {
                 sql.setString(5, paciente.getEmail());
                 sql.setDate(6, (Date) paciente.getDataDeNascimento());
                 sql.setString(7, paciente.getSexo());
-
+                
                 pacientes.add(paciente);
 
             }
@@ -168,8 +158,8 @@ public class PacienteDAOJDBC implements PacienteDAO {
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder
-                .append("SELECT * FROM contatos ")
-                .append("WHERE id = ?");
+                .append("SELECT * FROM paciente ")
+                .append("WHERE cpf = ?");
 
         String select = sqlBuilder.toString();
 
