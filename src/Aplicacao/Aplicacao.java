@@ -1,12 +1,15 @@
 package Aplicacao;
 
-import Interfaces.ALogin;
-import java.text.ParseException;
+import Pessoa.*;
+import dao.NutricionistaDAO;
+import dao.NutricionistaDAOJDBC;
+import javax.swing.JOptionPane;
+
 
 public class Aplicacao {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
+        Nutricionista n = new Nutricionista();
         
-       new ALogin().setVisible(true);
     }
 }

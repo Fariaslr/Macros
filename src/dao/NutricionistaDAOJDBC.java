@@ -20,37 +20,48 @@ public class NutricionistaDAOJDBC implements NutricionistaDAO {
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder
-                .append("INSERT INTO nutricionista(cpfNutricionista,registroNutricionista,nomeNutricionista,sobrenomeNutricionista,dataNascimento,sexo) ")
-                .append("VALUES (?, ?, ?, ?, ?, ?)");
+                .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                
 
         String insert = sqlBuilder.toString();
         int linha = 0;
         try {
             conexao = ConexaoMySQL.getConexao();
-
+            
             sql = (PreparedStatement) conexao.prepareStatement(insert);
+            
+            sql.setInt(1, nutri.getEnd().getCodigoEndereco());
+            sql.setString(2, nutri.getEnd().getLongradouro());
+            sql.setString(3, nutri.getEnd().getComplemento());
+            sql.setInt(4, nutri.getEnd().getNumero());
+            sql.setString(5, nutri.getEnd().getBairro());
+            sql.setString(6, nutri.getEnd().getCidade());
+            sql.setString(7, nutri.getEnd().getEstado());
+            sql.setString(8, nutri.getEnd().getCep());
+            
+            
+            linha = sql.executeUpdate(); 
+            
+            sqlBuilder
+                .append("INSERT INTO nutricionista(cpfNutricionista,registroNutricionista,nomeNutricionista,sobrenomeNutricionista,dataNascimento,sexo) ")
+                .append("VALUES (?, ?, ?, ?, ?, ?)");
+            
+            ResultSet rset = sql.getGeneratedKeys();
+            if(rset.next()){
+                Endereco end = new Endereco();
+                end.setCodigoEndereco(rset.getInt(1));
+                nutri.setEnd(end);
+            }
+            
+            sql = (PreparedStatement) conexao.prepareStatement(insert);
+            
             sql.setString(1, nutri.getCpf());
             sql.setInt(2, nutri.getRegistroNutricionista());
             sql.setString(3, nutri.getNome());
             sql.setString(4, nutri.getSobrenome());
             sql.setDate(5, new Date (nutri.getDataDeNascimento().getTime()));
             sql.setString(6, nutri.getSexo());
-            
-            linha = sql.executeUpdate(); 
-            
-            sqlBuilder
-                .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
-            sql = (PreparedStatement) conexao.prepareStatement(insert);
-            sql.setInt(1, nutri.getCodigoEndereco());
-            sql.setString(2, nutri.getLongradouro());
-            sql.setString(3, nutri.getComplemento());
-            sql.setInt(4, nutri.getNumero());
-            sql.setString(5, nutri.getBairro());
-            sql.setString(6, nutri.getCidade());
-            sql.setString(7, nutri.getEstado());
-            sql.setString(8, nutri.getCep());
 
             linha = sql.executeUpdate();
         } catch (Exception e) {
@@ -84,18 +95,18 @@ public class NutricionistaDAOJDBC implements NutricionistaDAO {
             sql.setString(6, nutri.getSexo());
             
             sqlBuilder
-                .append("UPDATE nutricionista SET")
+                .append("UPDATE endereco SET")
                 .append("WHERE codigoEndereco = ?,");
             
             sql = (PreparedStatement) conexao.prepareStatement(update);
-            sql.setInt(1, nutri.getCodigoEndereco());
-            sql.setString(2, nutri.getLongradouro());
-            sql.setString(3, nutri.getComplemento());
-            sql.setInt(4, nutri.getNumero());
-            sql.setString(5, nutri.getBairro());
-            sql.setString(6, nutri.getCidade());
-            sql.setString(7, nutri.getEstado());
-            sql.setString(8, nutri.getCep());
+            sql.setInt(1, nutri.getEnd().getCodigoEndereco());
+            sql.setString(2, nutri.getEnd().getLongradouro());
+            sql.setString(3, nutri.getEnd().getComplemento());
+            sql.setInt(4, nutri.getEnd().getNumero());
+            sql.setString(5, nutri.getEnd().getBairro());
+            sql.setString(6, nutri.getEnd().getCidade());
+            sql.setString(7, nutri.getEnd().getEstado());
+            sql.setString(8, nutri.getEnd().getCep());
 
             linha = sql.executeUpdate();
         } catch (Exception e) {
@@ -162,20 +173,20 @@ public class NutricionistaDAOJDBC implements NutricionistaDAO {
                 sql.setString(4, nutri.getSobrenome());
                 sql.setDate(5, (Date) nutri.getDataDeNascimento());
                 sql.setString(6, nutri.getSexo());
-                sql.setInt(7, nutri.getCodigoEndereco());
+                sql.setInt(7, nutri.getEnd().getCodigoEndereco());
 
                 select = "SELECT FROM endereco WHERE codigoEndereceo = ?";
 
                 sql = (PreparedStatement) conexao.prepareStatement(select);
                 
-                sql.setInt(1, nutri.getCodigoEndereco());
-                sql.setString(2, nutri.getLongradouro());
-                sql.setString(3, nutri.getComplemento());
-                sql.setInt(4, nutri.getNumero());
-                sql.setString(5, nutri.getBairro());
-                sql.setString(6, nutri.getCidade());
-                sql.setString(7, nutri.getEstado());
-                sql.setString(8, nutri.getCep());
+                sql.setInt(1, nutri.getEnd().getCodigoEndereco());
+                sql.setString(2, nutri.getEnd().getLongradouro());
+                sql.setString(3, nutri.getEnd().getComplemento());
+                sql.setInt(4, nutri.getEnd().getNumero());
+                sql.setString(5, nutri.getEnd().getBairro());
+                sql.setString(6, nutri.getEnd().getCidade());
+                sql.setString(7, nutri.getEnd().getEstado());
+                sql.setString(8, nutri.getEnd().getCep());
 
                 nutricionista.add(nutri);
             }
@@ -224,14 +235,14 @@ public class NutricionistaDAOJDBC implements NutricionistaDAO {
 
                 sql = (PreparedStatement) conexao.prepareStatement(select);
                 
-                sql.setInt(1, nutri.getCodigoEndereco());
-                sql.setString(2, nutri.getLongradouro());
-                sql.setString(3, nutri.getComplemento());
-                sql.setInt(4, nutri.getNumero());
-                sql.setString(5, nutri.getBairro());
-                sql.setString(6, nutri.getCidade());
-                sql.setString(7, nutri.getEstado());
-                sql.setString(8, nutri.getCep());
+                sql.setInt(1, nutri.getEnd().getCodigoEndereco());
+                sql.setString(2, nutri.getEnd().getLongradouro());
+                sql.setString(3, nutri.getEnd().getComplemento());
+                sql.setInt(4, nutri.getEnd().getNumero());
+                sql.setString(5, nutri.getEnd().getBairro());
+                sql.setString(6, nutri.getEnd().getCidade());
+                sql.setString(7, nutri.getEnd().getEstado());
+                sql.setString(8, nutri.getEnd().getCep());
 
 
             }

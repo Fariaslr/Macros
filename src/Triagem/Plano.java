@@ -1,6 +1,6 @@
 package Triagem;
 
-import java.util.*;
+import java.util.*; 
 
 public class Plano {
     

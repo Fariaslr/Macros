@@ -20,13 +20,28 @@ public class PacienteDAOJDBC implements PacienteDAO {
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder
-                .append("INSERT INTO paciente(cpf,nomePaciente,sobrenomePaciente,telefone,email,dataNascimento,sexo) ")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+                .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                
 
         String insert = sqlBuilder.toString();
         int linha = 0;
         try {
             conexao = ConexaoMySQL.getConexao();
+
+            sql = (PreparedStatement) conexao.prepareStatement(insert);
+            sql.setInt(1, paciente.getEnd().getCodigoEndereco());
+            sql.setString(2, paciente.getEnd().getLongradouro());
+            sql.setString(3, paciente.getEnd().getComplemento());
+            sql.setInt(4, paciente.getEnd().getNumero());
+            sql.setString(5, paciente.getEnd().getBairro());
+            sql.setString(6, paciente.getEnd().getCidade());
+            sql.setString(7, paciente.getEnd().getEstado());
+            sql.setString(8, paciente.getEnd().getCep());
+                      
+            sqlBuilder
+                .append("INSERT INTO paciente(cpf,nomePaciente,sobrenomePaciente,telefone,email,dataNascimento,sexo) ")
+                .append("VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             sql = (PreparedStatement) conexao.prepareStatement(insert);
             sql.setString(1, paciente.getCpf());
@@ -36,21 +51,7 @@ public class PacienteDAOJDBC implements PacienteDAO {
             sql.setString(5, paciente.getEmail());
             sql.setDate(6, (new Date (paciente.getDataDeNascimento().getTime())));
             sql.setString(7, paciente.getSexo());
-                
-            sqlBuilder
-                .append("INSERT INTO endereco(codigoEndereco,logradouro,complemento,numero,bairro,cidade,estado,cep) ")
-                .append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
-            sql = (PreparedStatement) conexao.prepareStatement(insert);
-            sql.setInt(1, paciente.getCodigoEndereco());
-            sql.setString(2, paciente.getLongradouro());
-            sql.setString(3, paciente.getComplemento());
-            sql.setInt(4, paciente.getNumero());
-            sql.setString(5, paciente.getBairro());
-            sql.setString(6, paciente.getCidade());
-            sql.setString(7, paciente.getEstado());
-            sql.setString(8, paciente.getCep());
-       
+            
             linha = sql.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

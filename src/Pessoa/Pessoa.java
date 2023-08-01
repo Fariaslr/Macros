@@ -2,13 +2,14 @@ package Pessoa;
 
 import java.util.Date;
 
-public class Pessoa extends Endereco{
+public abstract class Pessoa{
     
     private String cpf;
     private String nome;
     private String sobrenome;
     private Date dataDeNascimento;
     private String sexo;
+    private Endereco end;
 
         
     public String getCpf() {
@@ -49,6 +50,14 @@ public class Pessoa extends Endereco{
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }   
+
+    public Endereco getEnd() {
+        return end;
+    }
+
+    public void setEnd(Endereco end) {
+        this.end = end;
     }   
     
 }
