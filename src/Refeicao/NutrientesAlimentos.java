@@ -1,31 +1,26 @@
 package Refeicao;
 
 public class NutrientesAlimentos {
-    
-    private int codigoNutrientes;
-    private int codigoAlimento;
+
+    private Nutriente nutriente;
+    private Alimento alimento;
     private int gramas;
     private int kcal;
 
-    public NutrientesAlimentos(int codigoNutrientes, int codigoAlimento) {
-        this.codigoNutrientes = codigoNutrientes;
-        this.codigoAlimento = codigoAlimento;
+    public Nutriente getNutriente() {
+        return nutriente;
     }
 
-    public int getCodigoNutrientes() {
-        return codigoNutrientes;
+    public void setNutriente(Nutriente nutriente) {
+        this.nutriente = nutriente;
     }
 
-    public void setCodigoNutrientes(int codigoNutrientes) {
-        this.codigoNutrientes = codigoNutrientes;
+    public Alimento getAlimento() {
+        return alimento;
     }
 
-    public int getCodigoAlimento() {
-        return codigoAlimento;
-    }
-
-    public void setCodigoAlimento(int codigoAlimento) {
-        this.codigoAlimento = codigoAlimento;
+    public void setAlimento(Alimento alimento) {
+        this.alimento = alimento;
     }
 
     public int getGramas() {
@@ -43,6 +38,5 @@ public class NutrientesAlimentos {
     public void setKcal(int kcal) {
         this.kcal = kcal;
     }
-    
-        
+
 }

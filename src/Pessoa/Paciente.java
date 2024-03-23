@@ -1,7 +1,7 @@
 package Pessoa;
 
-public class Paciente extends Pessoa{
-    
+public class Paciente extends Pessoa {
+
     private String telefone;
     private String email;
 

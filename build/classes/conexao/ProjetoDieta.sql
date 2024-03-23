@@ -28,7 +28,7 @@ alter table paciente
 add constraint fkPacienteEndereco foreign key(codigoEndereco) references endereco(codigoEndereco);
     
 create table nutricionista(
-	cpfNutricionista char(11) primary key,
+    cpfNutricionista char(11) primary key,
     registroNutricionista char(5),
     nomeNutricionista varchar (20),
     sobrenomeNutricionista varchar (50),

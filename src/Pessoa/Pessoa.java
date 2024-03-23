@@ -2,16 +2,15 @@ package Pessoa;
 
 import java.util.Date;
 
-public abstract class Pessoa{
-    
+public abstract class Pessoa {
+
     private String cpf;
     private String nome;
     private String sobrenome;
     private Date dataDeNascimento;
     private String sexo;
-    private Endereco end;
+    private Endereco endereco;
 
-        
     public String getCpf() {
         return cpf;
     }
@@ -43,21 +42,20 @@ public abstract class Pessoa{
     public void setDataDeNascimento(Date dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
     }
-    
+
     public String getSexo() {
         return sexo;
     }
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
-    }   
-
-    public Endereco getEnd() {
-        return end;
     }
 
-    public void setEnd(Endereco end) {
-        this.end = end;
-    }   
-    
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
 }

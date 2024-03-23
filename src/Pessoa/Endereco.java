@@ -10,7 +10,6 @@ public class Endereco {
     private String bairro;
     private String cidade;
     private String estado;
-    
 
     public int getCodigoEndereco() {
         return codigoEndereco;

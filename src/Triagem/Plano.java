@@ -1,34 +1,31 @@
 package Triagem;
 
-import java.util.*; 
+import Pessoa.Nutricionista;
+import Pessoa.Paciente;
+import java.util.*;
 
 public class Plano {
-    
+
     private int codigoPlano;
-    private String cpfPaciente;
+    private Paciente paciente;
     private Date dataPlano;
     private int objetivo;
-    private String cpfNutricionista;
+    private Nutricionista nutricionista;
 
-    public Plano(String cpfPaciente, String cpfNutricionista) {
-        this.cpfPaciente = cpfPaciente;
-        this.cpfNutricionista = cpfNutricionista;
+    public Paciente getPaciente() {
+        return paciente;
     }
-    
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     public int getCodigoPlano() {
         return codigoPlano;
     }
 
     public void setCodigoPlano(int codigoPlano) {
         this.codigoPlano = codigoPlano;
-    }
-
-    public String getCpfPaciente() {
-        return cpfPaciente;
-    }
-
-    public void setCpfPaciente(String cpfPaciente) {
-        this.cpfPaciente = cpfPaciente;
     }
 
     public Date getDataPlano() {
@@ -47,13 +44,12 @@ public class Plano {
         this.objetivo = objetivo;
     }
 
-    public String getCpfNutricionista() {
-        return cpfNutricionista;
+    public Nutricionista getNutricionista() {
+        return nutricionista;
     }
 
-    public void setCpfNutricionista(String cpfNutricionista) {
-        this.cpfNutricionista = cpfNutricionista;
+    public void setNutricionista(Nutricionista nutricionista) {
+        this.nutricionista = nutricionista;
     }
-    
-    
+
 }

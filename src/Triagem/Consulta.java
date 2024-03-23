@@ -1,12 +1,16 @@
 package Triagem;
 
+import Pessoa.Nutricionista;
+import Pessoa.Paciente;
 import java.util.*;
 
 public class Consulta {
 
     private int codigoConsulta;
-    private int codigoPlano;
+    private Plano plano;
     private Date dataConsulta;
+    private Paciente paciente;
+    private Nutricionista nutri;
     private int idade;
     private float peso;
     private int altura;
@@ -23,10 +27,6 @@ public class Consulta {
     private float valorDiarioCarboidrato;
     private float valorDiarioGordura;
 
-    public Consulta(int codigoPlano) {
-        this.codigoPlano = codigoPlano;
-    }
-
     public int getCodigoConsulta() {
         return codigoConsulta;
     }
@@ -35,12 +35,12 @@ public class Consulta {
         this.codigoConsulta = codigoConsulta;
     }
 
-    public int getCodigoPlano() {
-        return codigoPlano;
+    public Plano getPlano() {
+        return plano;
     }
 
-    public void setCodigoPlano(int codigoPlano) {
-        this.codigoPlano = codigoPlano;
+    public void setPlano(Plano plano) {
+        this.plano = plano;
     }
 
     public Date getDataConsulta() {
@@ -49,6 +49,22 @@ public class Consulta {
 
     public void setDataConsulta(Date dataConsulta) {
         this.dataConsulta = dataConsulta;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public Nutricionista getNutri() {
+        return nutri;
+    }
+
+    public void setNutri(Nutricionista nutri) {
+        this.nutri = nutri;
     }
 
     public int getIdade() {
@@ -91,20 +107,20 @@ public class Consulta {
         this.taxaMetabolicaBasal = taxaMetabolicaBasal;
     }
 
-    public float getGastoEnergeticoTotal() {
-        return gastoEnergeticoTotal;
-    }
-
-    public void setGastoEnergeticoTotal(float gastoEnergeticoTotal) {
-        this.gastoEnergeticoTotal = gastoEnergeticoTotal;
-    }
-
     public int getNumeroRefeicoes() {
         return numeroRefeicoes;
     }
 
     public void setNumeroRefeicoes(int numeroRefeicoes) {
         this.numeroRefeicoes = numeroRefeicoes;
+    }
+
+    public float getGastoEnergeticoTotal() {
+        return gastoEnergeticoTotal;
+    }
+
+    public void setGastoEnergeticoTotal(float gastoEnergeticoTotal) {
+        this.gastoEnergeticoTotal = gastoEnergeticoTotal;
     }
 
     public float getCircunferenciaAbdominal() {
@@ -170,6 +186,8 @@ public class Consulta {
     public void setValorDiarioGordura(float valorDiarioGordura) {
         this.valorDiarioGordura = valorDiarioGordura;
     }
+
+    
 
     public void calculaTaxaMetabolicaBasal(String sexo) {
         if (sexo.equals("M")) {
