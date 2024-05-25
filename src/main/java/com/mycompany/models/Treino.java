@@ -1,14 +1,33 @@
 package com.mycompany.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.*;
 
-public class Treino {
+@Entity
+@Table(name = "treinos")
+public class Treino implements Serializable{
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataTreino;
+
+    @ManyToOne
+    @JoinColumn(name = "consulta_id", nullable = false)
     private Consulta consulta;
+
+    @ManyToOne
+    @JoinColumn(name = "educador_fisico_id", nullable = false)
     private EducadorFisico educadorFisico;
+
+    @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL)
     private List<TreinoExercicio> treinosExercicios;
 
     public Treino() {
@@ -21,11 +40,11 @@ public class Treino {
         this.treinosExercicios = treinosExercicios;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

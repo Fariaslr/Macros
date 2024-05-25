@@ -1,32 +1,46 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.Sexo;
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
 
-public abstract class Pessoa {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pessoa implements Serializable {
 
-    private Long id;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
+
     private String cpf;
     private String nome;
     private String sobrenome;
-    private Sexo sexo;
     private String telefone;
     private String email;
+
+    @Embedded
     private Endereco endereco;
 
     public Pessoa() {
     }
 
-    public Pessoa( String nome, String sobrenome, Sexo sexo) {
+    public Pessoa(String nome, String sobrenome, Sexo sexo) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.sexo = sexo;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -85,5 +99,5 @@ public abstract class Pessoa {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-        
+
 }

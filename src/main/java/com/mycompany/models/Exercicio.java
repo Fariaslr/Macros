@@ -1,31 +1,43 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.GrupoMuscular;
+import java.io.Serializable;
+import java.util.*;
+import javax.persistence.*;
 
-public class Exercicio {
+@Entity
+@Table(name = "exercicios")
+public class Exercicio implements Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Enumerated(EnumType.STRING)
+    private GrupoMuscular grupoMuscular;
+
     private String nome;
     private String descricao;
-    private GrupoMuscular grupoMuscular;
     private String urlFoto;
+
+    @OneToMany(mappedBy = "exercicio")
+    private List<TreinoExercicio> treinosExercicios;
 
     public Exercicio() {
     }
 
     public Exercicio(int id, String nome, String descricao, GrupoMuscular grupoMuscular, String urlFoto) {
-        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.grupoMuscular = grupoMuscular;
         this.urlFoto = urlFoto;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -61,9 +73,11 @@ public class Exercicio {
         this.urlFoto = urlFoto;
     }
 
-    @Override
-    public String toString() {
-        return "Exercicio{" + "nome=" + nome + ", grupoMuscular=" + grupoMuscular + '}';
+    public List<TreinoExercicio> getTreinosExercicios() {
+        return treinosExercicios;
     }
 
+    public void setTreinosExercicios(List<TreinoExercicio> treinosExercicios) {
+        this.treinosExercicios = treinosExercicios;
+    }
 }

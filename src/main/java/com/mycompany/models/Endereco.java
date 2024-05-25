@@ -1,15 +1,35 @@
 package com.mycompany.models;
 
-public class Endereco {
+import java.io.Serializable;
+import javax.persistence.*;
 
-    private int id;
+@Embeddable
+public class Endereco implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "cep")
     private String cep;
+
+    @Column(name = "logradouro")
     private String logradouro;
+
+    @Column(name = "complemento")
     private String complemento;
+
+    @Column(name = "bairro")
     private String bairro;
+
+    @Column(name = "cidade")
     private String cidade;
+
+    @Column(name = "estado")
     private String estado;
+
+    @Column(name = "pais")
     private String pais;
+
+    @Column(name = "numero")
     private int numero;
 
     public Endereco() {
@@ -22,14 +42,6 @@ public class Endereco {
         this.cidade = cidade;
         this.estado = estado;
         this.pais = pais;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCep() {

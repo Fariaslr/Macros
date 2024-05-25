@@ -1,12 +1,27 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.DivisaoTreino;
+import java.io.Serializable;
+import java.util.UUID;
+import javax.persistence.*;
 
-public class TreinoExercicio {
+@Entity
+@Table(name = "treinos_exercicios")
+public class TreinoExercicio implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "exercicio_id", nullable = false)
     private Exercicio exercicio;
+
+    @Enumerated(EnumType.STRING)
     private DivisaoTreino divisao;
+
     private int series;
     private int repeticoes;
     private float carga;
@@ -24,11 +39,11 @@ public class TreinoExercicio {
         this.intervaloSerie = intervaloSerie;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,8 +98,8 @@ public class TreinoExercicio {
     public int converterMinutos() {
         return this.intervaloSerie / 60;
     }
-    
-    public int mostarSegundos () {
+
+    public int mostrarSegundos() {
         return this.intervaloSerie % 60;
     }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.1">
+    <persistence-unit name="my-persistence-unit">
+        <class>com.mycompany.models.Consulta</class>
+        <class>com.mycompany.models.EducadorFisico</class>
+        <class>com.mycompany.models.Endereco</class>
+        <class>com.mycompany.models.Nutricionista</class>
+        <class>com.mycompany.models.Paciente</class>
+        <class>com.mycompany.models.Plano</class>
+        <class>com.mycompany.models.Pessoa</class>       
+        <class>com.mycompany.models.ProfissionalSaude</class>
+        <class>com.mycompany.models.Treino</class>
+        <class>com.mycompany.models.TreinoExercicio</class>
+        
+        <!-- Outras classes de entidade -->
+
+        <properties>
+            <!-- Propriedades JDBC para PostgreSQL -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/macros"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="123456"/>
+
+            <!-- Propriedades Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.jdb.lob.non_contextual_creation" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

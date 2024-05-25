@@ -2,37 +2,56 @@ package com.mycompany.models;
 
 import java.util.*;
 import com.mycompany.enums.Objetivo;
+import static com.mycompany.enums.Sexo.FEMININO;
+import static com.mycompany.enums.Sexo.MASCULINO;
+import java.io.Serializable;
+import javax.persistence.*;
 
-public class Consulta {
+@Entity
+@Table(name = "consultas")
+public class Consulta implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
-    private int codigoConsulta;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "plano_id", nullable = false)
     private Plano plano;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataConsulta;
+
+    @ManyToOne
+    @JoinColumn(name = "responsavel_id", nullable = false)
+    private ProfissionalSaude responsavel;
+
     private float peso;
     private float altura;
     private int numeroRefeicoes;
-    private float circunferenciaAbdominal;
-    private float circunferenciaBraco;
-    private float circunferenciaPerna;
-    private float medidaGorduraBarriga;
-    private float medidaGorduraCostas;
+    private float medidaPescoco;
+    private float medidaCintura;
+    private float medidaQuadril;
 
     public Consulta() {
     }
 
-    public Consulta(Plano plano, Date dataConsulta, float peso, float altura) {
+    public Consulta(Plano plano, Date dataConsulta, float peso, float altura, ProfissionalSaude responsavel) {
         this.plano = plano;
         this.dataConsulta = dataConsulta;
         this.peso = peso;
         this.altura = altura;
+        this.responsavel = responsavel;
     }
 
-    public int getCodigoConsulta() {
-        return codigoConsulta;
+    public UUID getId() {
+        return id;
     }
 
-    public void setCodigoConsulta(int codigoConsulta) {
-        this.codigoConsulta = codigoConsulta;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Plano getPlano() {
@@ -75,58 +94,50 @@ public class Consulta {
         this.numeroRefeicoes = numeroRefeicoes;
     }
 
-    public float getCircunferenciaAbdominal() {
-        return circunferenciaAbdominal;
+    public float getMedidaPescoco() {
+        return medidaPescoco;
     }
 
-    public void setCircunferenciaAbdominal(float circunferenciaAbdominal) {
-        this.circunferenciaAbdominal = circunferenciaAbdominal;
+    public void setMedidaPescoco(float medidaPescoco) {
+        this.medidaPescoco = medidaPescoco;
     }
 
-    public float getCircunferenciaBraco() {
-        return circunferenciaBraco;
+    public float getMedidaCintura() {
+        return medidaCintura;
     }
 
-    public void setCircunferenciaBraco(float circunferenciaBraco) {
-        this.circunferenciaBraco = circunferenciaBraco;
+    public void setMedidaCintura(float medidaCintura) {
+        this.medidaCintura = medidaCintura;
     }
 
-    public float getCircunferenciaPerna() {
-        return circunferenciaPerna;
+    public float getMedidaQuadril() {
+        return medidaQuadril;
     }
 
-    public void setCircunferenciaPerna(float circunferenciaPerna) {
-        this.circunferenciaPerna = circunferenciaPerna;
+    public void setMedidaQuadril(float medidaQuadril) {
+        this.medidaQuadril = medidaQuadril;
     }
 
-    public float getMedidaGorduraBarriga() {
-        return medidaGorduraBarriga;
+    public ProfissionalSaude getResponsavel() {
+        return responsavel;
     }
 
-    public void setMedidaGorduraBarriga(float medidaGorduraBarriga) {
-        this.medidaGorduraBarriga = medidaGorduraBarriga;
+    public void setResponsavel(ProfissionalSaude responsavel) {
+        this.responsavel = responsavel;
     }
 
-    public float getMedidaGorduraCostas() {
-        return medidaGorduraCostas;
+    private float calcularTaxaMetabolicaBasal() {
+        return (float) (switch (plano.getPaciente().getSexo()) {
+            case MASCULINO ->
+                66.5 + (13.75 * getPeso()) + (5.003 * getAltura()) - (6.75 * plano.getPaciente().calcularIdade());
+            case FEMININO ->
+                655.1 + (9.563 * getPeso()) + (1.85 * getAltura()) - (4.676 * plano.getPaciente().calcularIdade());
+            default ->
+                0;
+        });
     }
 
-    public void setMedidaGorduraCostas(float medidaGorduraCostas) {
-        this.medidaGorduraCostas = medidaGorduraCostas;
-    }
-
-    public float calcularTaxaMetabolicaBasal() {
-        switch (plano.getPaciente().getSexo()) {
-            case MASCULINO:
-                return (float) (66.5 + (13.75 * getPeso()) + (5.003 * getAltura()) - (6.75 * plano.getPaciente().calcularIdade()));
-            case FEMININO:
-                return (float) (655.1 + (9.563 * getPeso()) + (1.85 * getAltura()) - (4.676 * plano.getPaciente().calcularIdade()));
-            default:
-                return 0;
-        }
-    }
-
-    public float calcularGastoEnergeticoTotal() {
+    private float calcularGastoEnergeticoTotal() {
         return calcularTaxaMetabolicaBasal() * plano.getNivelAtividadeFisica().getFATOR();
     }
 
@@ -146,15 +157,15 @@ public class Consulta {
         return calcularGastoEnergeticoTotal() * 1.223f;
     }
 
-    public void calcularValorDiárioProteina() {
-
+    public double calcularPercentualGordura() {
+        return (double) (switch (plano.getPaciente().getSexo()) {
+            case MASCULINO ->
+                (495 / (1.033 - 0.191 * Math.log10(this.medidaCintura - this.medidaPescoco) + 0.155 * Math.log10(this.altura))) - 450;
+            case FEMININO ->
+                (495 / (1.296 - 0.350 * Math.log10(this.medidaQuadril + this.medidaCintura - this.medidaPescoco) + 0.221 * Math.log10(this.altura))) - 450;
+            default ->
+                0;
+        });
     }
 
-    public void calcularValorDiárioCarboidrato() {
-
-    }
-
-    public void calcularValorDiárioGordura() {
-
-    }
 }
