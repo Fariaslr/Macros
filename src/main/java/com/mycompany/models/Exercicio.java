@@ -26,7 +26,8 @@ public class Exercicio implements Serializable {
     public Exercicio() {
     }
 
-    public Exercicio(int id, String nome, String descricao, GrupoMuscular grupoMuscular, String urlFoto) {
+    public Exercicio(UUID id, String nome, String descricao, GrupoMuscular grupoMuscular, String urlFoto) {
+        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.grupoMuscular = grupoMuscular;

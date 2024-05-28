@@ -158,7 +158,7 @@ public class Consulta implements Serializable {
     }
 
     public double calcularPercentualGordura() {
-        return (double) (switch (plano.getPaciente().getSexo()) {
+        return(switch (plano.getPaciente().getSexo()) {
             case MASCULINO ->
                 (495 / (1.033 - 0.191 * Math.log10(this.medidaCintura - this.medidaPescoco) + 0.155 * Math.log10(this.altura))) - 450;
             case FEMININO ->
