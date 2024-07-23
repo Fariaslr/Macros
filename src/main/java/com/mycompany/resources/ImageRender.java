@@ -2,9 +2,12 @@ package com.mycompany.resources;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.net.URL;
+import java.util.concurrent.*;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ImageRender extends DefaultTableCellRenderer {
@@ -13,14 +16,26 @@ public class ImageRender extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        String photoURL = value.toString();
-        ImageIcon imageIcon = imageCache.getImage(photoURL);
+        JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        label.setText(""); // Remover texto padrão
+        label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        if (imageIcon != null) {
-            Image image = imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_AREA_AVERAGING);
-            return new JLabel(new ImageIcon(image));
+        if (value != null) {
+            String photoURL = value.toString();
+            ImageIcon imageIcon = imageCache.getImage(photoURL);
+
+            if (imageIcon != null) {
+                label.setIcon(imageIcon);
+            } else {
+                label.setText("Imagem inválida");
+                label.setIcon(null);
+            }
         } else {
-            return new JLabel(" Imagem inválida");
+            label.setText("Imagem inválida");
+            label.setIcon(null);
         }
+
+        return label;
     }
+
 }

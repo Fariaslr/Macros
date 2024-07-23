@@ -55,7 +55,7 @@ public class PDF {
                 document.add(mostrarEnderecoPaciente());
                 document.add(insereDivider());
                 document.add(criarTituloSessao("Dados específicos"));
-                document.add(mostrarDadosEspecificos());
+                document.add(mostrarDadosEspecificosPaciente());
 
                 for (TreinoExercicio treinoExercicio : treino.getTreinosExercicios()) {
                     document.add(new AreaBreak());
@@ -103,7 +103,7 @@ public class PDF {
         tabelaCabecalho.setMarginBottom(MARGIN);
 
         tabelaCabecalho.setWidth(UnitValue.createPercentValue(100));
-        tabelaCabecalho.addCell(configuraTituloContainer(tituloContainer)
+        tabelaCabecalho.addCell(configurarTituloContainer(tituloContainer)
                 .setFontSize(10)
                 .setBackgroundColor(MARROM_ESCURO)
                 .setFontColor(Color.WHITE));
@@ -114,7 +114,7 @@ public class PDF {
     private Table mostrarDadosPaciente() {
         criarTituloSessao("Dados pessoais");
         Table tabelaPaciente = new Table(2);
-        setMarginTabela(tabelaPaciente);
+        colocarMarginTabela(tabelaPaciente);
 
         tabelaPaciente.addCell(montarContainer("CPF: ", paciente.getCpf() == null ? " - " : paciente.getCpf()));
         tabelaPaciente.addCell(montarContainer("Nome: ", paciente.getNome() == null ? " - " : paciente.getNome() + " " + paciente.getSobrenome()));
@@ -130,7 +130,7 @@ public class PDF {
 
         Table tabelaEndereco = new Table(2);
         tabelaEndereco.setWidth(UnitValue.createPercentValue(100));
-        setMarginTabela(tabelaEndereco);
+        colocarMarginTabela(tabelaEndereco);
         tabelaEndereco.setMarginBottom(MARGIN);
 
         Endereco endereco = paciente.getEndereco();
@@ -146,7 +146,7 @@ public class PDF {
         return tabelaEndereco;
     }
 
-    private Table mostrarDadosEspecificos() {
+    private Table mostrarDadosEspecificosPaciente() {
         Table tabelaDadosEspecificos = new Table(4);
         tabelaDadosEspecificos.setWidth(UnitValue.createPercentValue(100));
 
@@ -169,8 +169,8 @@ public class PDF {
 
         Table tabelaExercicio = new Table(1).setWidth(UnitValue.createPercentValue(100)).setBorder(Border.NO_BORDER);
 
-        tabelaExercicio.addCell(getTituloExercicio(treinoExercicio.getExercicio().getNome(), treinoExercicio.getDivisao().getAGRUPAMENTO()));
-        tabelaExercicio.addCell(getImageExercicio(treinoExercicio));
+        tabelaExercicio.addCell(mostrarTituloExercicio(treinoExercicio.getExercicio().getNome(), treinoExercicio.getDivisao().getAGRUPAMENTO()));
+        tabelaExercicio.addCell(carregarUrlImageExercicio(treinoExercicio));
         tabelaExercicio.addCell(carregarExecucaoExercicio(treinoExercicio));
 
         return tabelaExercicio;
@@ -184,27 +184,27 @@ public class PDF {
         Table tabelaDados = new Table(1)
                 .setBorder(Border.NO_BORDER);
 
-        tabelaDados.addCell(configuraTituloContainer(titulo));
-        tabelaDados.addCell(getDescricaoContainer(descricao));
+        tabelaDados.addCell(configurarTituloContainer(titulo));
+        tabelaDados.addCell(configurarDescricaoContainer(descricao));
 
         cell.add(tabelaDados);
 
         return cell;
     }
 
-    private Cell configuraTituloContainer(String titulo) {
-        return new Cell().add(new Paragraph(titulo)).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
+    private Cell configurarTituloContainer(String titulo) {
+        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
     }
 
-    private Cell getDescricaoContainer(String descricao) {
-        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(fontSize).setBold();
+    private Cell configurarDescricaoContainer(String descricao) {
+        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(fontSize).setTextAlignment(TextAlignment.JUSTIFIED);
     }
 
-    private void setMarginTabela(Table tabela) {
+    private void colocarMarginTabela(Table tabela) {
         tabela.setMarginLeft(MARGIN).setMarginRight(MARGIN);
     }
 
-    private Cell getTituloExercicio(String nomeExercicio, String musculoAgrupamento) {
+    private Cell mostrarTituloExercicio(String nomeExercicio, String musculoAgrupamento) {
         Cell tituloCell = new Cell(2, 10).add(nomeExercicio + " - " + musculoAgrupamento
         )
                 .setBorder(Border.NO_BORDER)
@@ -217,7 +217,7 @@ public class PDF {
         return tituloCell;
     }
 
-    private Cell getImageExercicio(TreinoExercicio treinoExercicio) {
+    private Cell carregarUrlImageExercicio(TreinoExercicio treinoExercicio) {
 
         Table table = new Table(1).setWidth(UnitValue.createPercentValue(100)).setBorder(Border.NO_BORDER);
 
@@ -240,17 +240,17 @@ public class PDF {
     }
 
     private Cell carregarExecucaoExercicio(TreinoExercicio treinoExercicio) {
-        Cell rightCell = new Cell().setWidth(UnitValue.createPercentValue(100));
+        Cell rightCell = new Cell().setWidth(UnitValue.createPercentValue(100)).setBorder(Border.NO_BORDER);
 
         Table tabela = new Table(1).addCell(carregaDescricaoExercicio("Descrição do exercicio", treinoExercicio.getExercicio().getDescricao()));
 
         rightCell.add(tabela);
-        rightCell.add(getRodape(treinoExercicio));
+        rightCell.add(constroiRodape(treinoExercicio));
 
         return rightCell;
     }
 
-    private Table getRodape(TreinoExercicio treinoExercicio) {
+    private Table constroiRodape(TreinoExercicio treinoExercicio) {
         Table rodape = new Table(4).setBorder(Border.NO_BORDER).setWidth(UnitValue.createPercentValue(100));
 
         rodape.addCell(getContainerColor("Séries", String.valueOf(treinoExercicio.getSeries())));
@@ -310,7 +310,7 @@ public class PDF {
                 .setBorder(Border.NO_BORDER);
 
         tabelaDados.addCell(configuraTitulo(titulo));
-        tabelaDados.addCell(configuraDescricao(descricao));
+        tabelaDados.addCell(configuraDescricaoExercicio(descricao));
 
         cell.add(tabelaDados);
 
@@ -321,7 +321,7 @@ public class PDF {
         return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(14).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
     }
 
-    private Cell configuraDescricao(String descricao) {
-        return new Cell().add(new Paragraph(descricao)).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
+    private Cell configuraDescricaoExercicio(String descricao) {
+        return new Cell().add(new Paragraph(descricao)).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT);
     }
 }

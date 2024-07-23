@@ -5,6 +5,8 @@ import com.mycompany.models.Exercicio;
 
 import com.mycompany.resources.CenterRenderer;
 import com.mycompany.resources.ImageRender;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.*;
@@ -17,6 +19,7 @@ public class Exercicios extends javax.swing.JFrame {
     public Exercicios() {
         initComponents();
         initTableExercicios();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -142,7 +145,7 @@ public class Exercicios extends javax.swing.JFrame {
                 }
             }
             // Nenhuma ação padrão
-                    }
+        }
     }//GEN-LAST:event_tableExerciciosMouseClicked
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
@@ -167,6 +170,7 @@ public class Exercicios extends javax.swing.JFrame {
         dtmExercicio.setNumRows(0);
 
         TableCellRenderer centerRenderer = new CenterRenderer();
+
         tableExercicios.setRowHeight(100);
         tableExercicios.setDefaultRenderer(Object.class, centerRenderer);
         tableExercicios.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
