@@ -1,11 +1,17 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.Sexo;
-import java.io.Serializable;
+import java.io.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "pessoas")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pessoa implements Serializable {
 
@@ -15,14 +21,17 @@ public abstract class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    private Sexo sexo;
-
     private String cpf;
     private String nome;
     private String sobrenome;
     private String telefone;
     private String email;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimento;
+
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
 
     @Embedded
     private Endereco endereco;
@@ -30,10 +39,11 @@ public abstract class Pessoa implements Serializable {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String sobrenome, Sexo sexo) {
+    public Pessoa(Date dataNascimeto, String nome, String sobrenome, Sexo sexo) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.sexo = sexo;
+        this.dataNascimento = dataNascimeto;
     }
 
     public UUID getId() {
@@ -68,14 +78,6 @@ public abstract class Pessoa implements Serializable {
         this.sobrenome = sobrenome;
     }
 
-    public Sexo getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -92,12 +94,42 @@ public abstract class Pessoa implements Serializable {
         this.email = email;
     }
 
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public int calcularIdade() {
+        LocalDate birth = LocalDate.now();
+        LocalDate nascimento = Instant.ofEpochMilli(dataNascimento.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        Period periodo = Period.between(nascimento, birth);
+        return periodo.getYears();
+    }
+
+    @Override
+    public String toString() {
+        return "Paciente [dataNascimento=" + dataNascimento + ", getId()=" + getId() + ", getCpf()=" + getCpf()
+                + ", getNome()=" + getNome() + ", getSobrenome()=" + getSobrenome() + ", getTelefone()=" + getTelefone()
+                + ", getEmail()=" + getEmail() + ", getSexo()=" + getSexo() + ", getEndereco()=" + getEndereco() + "]";
     }
 
 }

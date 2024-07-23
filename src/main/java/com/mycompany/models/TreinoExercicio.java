@@ -6,26 +6,33 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "treinos_exercicios")
-public class TreinoExercicio implements Serializable{
-    
+@Table(name = "treino_exercicios")
+public class TreinoExercicio implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "exercicio_id", nullable = false)
-    private Exercicio exercicio;
+	@Enumerated(EnumType.STRING)
+	private DivisaoTreino divisao;
 
-    @Enumerated(EnumType.STRING)
-    private DivisaoTreino divisao;
+	@ManyToOne
+	@JoinColumn(name = "exercicio_id", nullable = false)
+	private Exercicio exercicio;
 
-    private int series;
-    private int repeticoes;
-    private float carga;
-    private int intervaloSerie;
+	@ManyToOne
+	@JoinColumn(name = "treino_id", nullable = false)
+	private Treino treino;
+
+	private int series;
+
+	private int repeticoes;
+
+	private float carga;
+
+	private int intervaloSerie;
 
     public TreinoExercicio() {
     }
@@ -94,6 +101,16 @@ public class TreinoExercicio implements Serializable{
     public void setIntervaloSerie(int intervaloSerie) {
         this.intervaloSerie = intervaloSerie;
     }
+
+    public Treino getTreino() {
+        return treino;
+    }
+
+    public void setTreino(Treino treino) {
+        this.treino = treino;
+    }
+    
+    
 
     public int converterMinutos() {
         return this.intervaloSerie / 60;

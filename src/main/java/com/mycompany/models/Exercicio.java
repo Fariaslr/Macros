@@ -1,29 +1,46 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.GrupoMuscular;
+import java.awt.Image;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
+import javax.swing.ImageIcon;
 
 @Entity
 @Table(name = "exercicios")
 public class Exercicio implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "grupo_muscular")
     @Enumerated(EnumType.STRING)
     private GrupoMuscular grupoMuscular;
 
+    @OneToMany(mappedBy = "exercicio", cascade = CascadeType.ALL)
+    private List<TreinoExercicio> treinoExercicios;
+
+    @Column(length = 40)
     private String nome;
+
+    @Column(length = 3000)
     private String descricao;
+
+    @Column(name = "url_foto", length = 255)
     private String urlFoto;
 
-    @OneToMany(mappedBy = "exercicio")
-    private List<TreinoExercicio> treinosExercicios;
-
     public Exercicio() {
+    }
+
+    public Exercicio(GrupoMuscular grupoMuscular, String nome, String descricao, String urlFoto) {
+        this.grupoMuscular = grupoMuscular;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.urlFoto = urlFoto;
     }
 
     public Exercicio(UUID id, String nome, String descricao, GrupoMuscular grupoMuscular, String urlFoto) {
@@ -74,11 +91,27 @@ public class Exercicio implements Serializable {
         this.urlFoto = urlFoto;
     }
 
-    public List<TreinoExercicio> getTreinosExercicios() {
-        return treinosExercicios;
+    public List<TreinoExercicio> getTreinoExercicios() {
+        return treinoExercicios;
     }
 
-    public void setTreinosExercicios(List<TreinoExercicio> treinosExercicios) {
-        this.treinosExercicios = treinosExercicios;
+    public void setTreinoExercicios(List<TreinoExercicio> treinosExercicios) {
+        this.treinoExercicios = treinosExercicios;
+    }
+
+    public ImageIcon getFotoIcon() {
+        try {
+            ImageIcon imageIcon = new ImageIcon(urlFoto);
+            Image image = imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            return new ImageIcon(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return nome + " - " + grupoMuscular.getNome();
     }
 }

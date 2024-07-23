@@ -4,6 +4,7 @@ import java.text.*;
 import java.util.*;
 import com.mycompany.enums.*;
 import com.mycompany.models.*;
+import com.mycompany.view.MontaTreino;
 import java.awt.HeadlessException;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -18,38 +19,23 @@ public class Macros {
         Macros macros = new Macros();
         ScriptExercicios exerciciosScriptExercicios = new ScriptExercicios();
 
-        Endereco endereco = macros.buscarCep("4280708s");
+        Endereco endereco = macros.buscarCep("70094900");
 
-        Paciente paciente = new Paciente(new SimpleDateFormat("dd/MM/yyyy").parse("21/11/2001"), "Lucas", "Farias", Sexo.MASCULINO);
-        paciente.setTelefone("71 99915-8408");
-        paciente.setEndereco(endereco);
+        Pessoa paciente = new Paciente(new SimpleDateFormat("dd/MM/yyyy").parse("02/11/2003"), "Caique", "Roma", Sexo.MASCULINO);
+        paciente.setTelefone("71 99329-5049");
 
-        EducadorFisico educadorFisico = new EducadorFisico("12456/BA", "Aleffe", "Santana", Sexo.MASCULINO);
+        EducadorFisico educadorFisico = new EducadorFisico("12456/BA", new SimpleDateFormat("dd/MM/yyyy").parse("18/06/2001"), "Aleffe", "Santana", Sexo.MASCULINO);
 
-        Plano plano = new Plano(paciente, new Date(), Objetivo.HIPERTROFIA, NivelAtividadeFisica.ALTAMENTE_ATIVO, educadorFisico);
+        Plano plano = new Plano((Paciente) paciente, new Date(), Objetivo.HIPERTROFIA, NivelAtividadeFisica.ALTAMENTE_ATIVO, educadorFisico);
 
-        Consulta consulta = new Consulta(plano, new Date(), 86f, 184, educadorFisico);
+        Consulta consulta = new Consulta(plano, new Date(), 100f, 194, educadorFisico);
 
-        List<Exercicio> exercicios = exerciciosScriptExercicios.listaExercicios();
         List<TreinoExercicio> treinosExercicios = new ArrayList<>();
 
         Treino treino = new Treino(new Date(), consulta, educadorFisico, treinosExercicios);
 
-        TreinoExercicio treinoExercicio;
+        new MontaTreino(treino).setVisible(true);
 
-        for (int i = 0; i < 6; i++) {
-            if (i < 3) {
-                treinoExercicio = new TreinoExercicio(exercicios.get(i), DivisaoTreino.DIVISAO_A, 4, 12, 5, 60);
-                treinosExercicios.add(treinoExercicio);
-            } else {
-                treinoExercicio = new TreinoExercicio(exercicios.get(i), DivisaoTreino.DIVISAO_B, 4, 12, 5, 30);
-                treinosExercicios.add(treinoExercicio);
-            }
-        }
-
-        PDF pdf = new PDF();
-
-        pdf.gerarPDF(treino);
     }
 
     private Endereco buscarCep(String cep) {

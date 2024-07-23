@@ -2,15 +2,14 @@ package com.mycompany.models;
 
 import java.util.*;
 import com.mycompany.enums.Objetivo;
-import static com.mycompany.enums.Sexo.FEMININO;
-import static com.mycompany.enums.Sexo.MASCULINO;
+import static com.mycompany.enums.Sexo.*;
 import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "consultas")
 public class Consulta implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,29 +20,40 @@ public class Consulta implements Serializable {
     @JoinColumn(name = "plano_id", nullable = false)
     private Plano plano;
 
+    @OneToOne(mappedBy = "consulta")
+    private Treino treino;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataConsulta;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
-    private ProfissionalSaude responsavel;
+    @JoinColumn(name = "profissional_saude_id", nullable = false)
+    private ProfissionalSaude profissionalSaude;
 
     private float peso;
     private float altura;
+    
+    @Column(name = "numero_refeicoes")
     private int numeroRefeicoes;
+    
+    @Column(name = "medida_pescoco")
     private float medidaPescoco;
+    
+    @Column(name = "medida_cintura")
     private float medidaCintura;
+    
+    @Column(name = "medida_quadril")
     private float medidaQuadril;
 
     public Consulta() {
     }
 
-    public Consulta(Plano plano, Date dataConsulta, float peso, float altura, ProfissionalSaude responsavel) {
+    public Consulta(Plano plano, Date dataConsulta, float peso, float altura, ProfissionalSaude profissionalSaude) {
         this.plano = plano;
         this.dataConsulta = dataConsulta;
+        this.profissionalSaude = profissionalSaude;
         this.peso = peso;
         this.altura = altura;
-        this.responsavel = responsavel;
     }
 
     public UUID getId() {
@@ -118,12 +128,20 @@ public class Consulta implements Serializable {
         this.medidaQuadril = medidaQuadril;
     }
 
-    public ProfissionalSaude getResponsavel() {
-        return responsavel;
+    public Treino getTreino() {
+        return treino;
     }
 
-    public void setResponsavel(ProfissionalSaude responsavel) {
-        this.responsavel = responsavel;
+    public void setTreino(Treino treino) {
+        this.treino = treino;
+    }
+
+    public ProfissionalSaude getProfissionalSaude() {
+        return profissionalSaude;
+    }
+
+    public void setProfissionalSaude(ProfissionalSaude profissionalSaude) {
+        this.profissionalSaude = profissionalSaude;
     }
 
     private float calcularTaxaMetabolicaBasal() {
@@ -158,7 +176,7 @@ public class Consulta implements Serializable {
     }
 
     public double calcularPercentualGordura() {
-        return(switch (plano.getPaciente().getSexo()) {
+        return (switch (plano.getPaciente().getSexo()) {
             case MASCULINO ->
                 (495 / (1.033 - 0.191 * Math.log10(this.medidaCintura - this.medidaPescoco) + 0.155 * Math.log10(this.altura))) - 450;
             case FEMININO ->

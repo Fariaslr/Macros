@@ -1,12 +1,16 @@
 package com.mycompany.models;
 
 import com.mycompany.enums.Sexo;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "profissionais_saude")
 public abstract class ProfissionalSaude extends Pessoa {
+
+    private static final long serialVersionUID = 1L;
 
     @OneToMany(mappedBy = "profissionalSaude", cascade = CascadeType.ALL)
     private List<Plano> planos;
@@ -15,10 +19,11 @@ public abstract class ProfissionalSaude extends Pessoa {
     private List<Consulta> consultas;
 
     public ProfissionalSaude() {
+
     }
 
-    public ProfissionalSaude(String nome, String sobrenome, Sexo sexo) {
-        super(nome, sobrenome, sexo);
+    public ProfissionalSaude(Date dataNascimento, String nome, String sobrenome, Sexo sexo) {
+        super(dataNascimento, nome, sobrenome, sexo);
     }
 
     public List<Plano> getPlanos() {
@@ -36,4 +41,5 @@ public abstract class ProfissionalSaude extends Pessoa {
     public void setConsultas(List<Consulta> consultas) {
         this.consultas = consultas;
     }
+
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name="planos")
+@Table(name = "planos")
 public class Plano implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,10 +17,9 @@ public class Plano implements Serializable {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataPlano;
 
     @Enumerated(EnumType.STRING)
@@ -30,24 +29,20 @@ public class Plano implements Serializable {
     private NivelAtividadeFisica nivelAtividadeFisica;
 
     @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
-    private ProfissionalSaude responsavel;
+    @JoinColumn(name = "profissional_saude_id", nullable = false)
+    private ProfissionalSaude profissionalSaude;
 
     @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
-
-    public Plano() {
-
-    }
 
     public Plano(Paciente paciente, Date dataPlano, Objetivo objetivo, NivelAtividadeFisica nivelAtividadeFisica, ProfissionalSaude profissionalSaude) {
         this.paciente = paciente;
         this.dataPlano = dataPlano;
         this.objetivo = objetivo;
         this.nivelAtividadeFisica = nivelAtividadeFisica;
-        this.responsavel = profissionalSaude;
-    }
-
+        this.profissionalSaude = profissionalSaude;
+    }   
+    
     public UUID getId() {
         return id;
     }
@@ -88,12 +83,12 @@ public class Plano implements Serializable {
         this.nivelAtividadeFisica = nivelAtividadeFisica;
     }
 
-    public ProfissionalSaude getResponsavel() {
-        return responsavel;
+    public ProfissionalSaude getProfissionalSaude() {
+        return profissionalSaude;
     }
 
-    public void setResponsavel(ProfissionalSaude responsavel) {
-        this.responsavel = responsavel;
+    public void setProfissionalSaude(ProfissionalSaude profissionalSaude) {
+        this.profissionalSaude = profissionalSaude;
     }
 
     public List<Consulta> getConsultas() {
@@ -103,5 +98,4 @@ public class Plano implements Serializable {
     public void setConsultas(List<Consulta> consultas) {
         this.consultas = consultas;
     }
-
 }
