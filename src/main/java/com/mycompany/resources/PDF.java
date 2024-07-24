@@ -38,7 +38,7 @@ public class PDF {
         this.paciente = treino.getConsulta().getPlano().getPaciente();
         this.educadorFisico = treino.getEducadorFisico();
 
-        String path = "src/main/resources/relatorios/Plano de treino " + paciente.getNome() + " " + new SimpleDateFormat("dd-MM-yyyy hh.mm.ss").format(treino.getDataTreino()) + ".pdf";
+        String path = "src/main/resources/relatorios/Plano de treino " + paciente.getNome() + " " + new SimpleDateFormat("dd-MM-yyyy").format(treino.getDataTreino()) + ".pdf";
         try {
             PdfWriter pdfWriter = new PdfWriter(path);
             PdfDocument pdfDocument = new PdfDocument(pdfWriter);

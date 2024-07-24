@@ -1,14 +1,18 @@
 package com.mycompany.macros;
 
+import com.mycompany.dao.ExercicioDAO;
 import java.text.*;
 import java.util.*;
 import com.mycompany.enums.*;
 import com.mycompany.models.*;
+import com.mycompany.resources.PDF;
 import com.mycompany.view.MontaTreino;
 import java.awt.HeadlessException;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.dom4j.*;
 import org.dom4j.io.*;
@@ -17,9 +21,8 @@ public class Macros {
 
     public static void main(String[] args) throws ParseException, FileNotFoundException {
         Macros macros = new Macros();
-        ScriptExercicios exerciciosScriptExercicios = new ScriptExercicios();
 
-        Endereco endereco = macros.buscarCep("70094900");
+        ExercicioDAO exercicioDAO = new ExercicioDAO();
 
         Pessoa paciente = new Paciente(new SimpleDateFormat("dd/MM/yyyy").parse("02/11/2003"), "Caique", "Roma", Sexo.MASCULINO);
         paciente.setTelefone("71 99329-5049");
@@ -34,8 +37,18 @@ public class Macros {
 
         Treino treino = new Treino(new Date(), consulta, educadorFisico, treinosExercicios);
 
-        new MontaTreino(treino).setVisible(true);
+        for (Exercicio e : exercicioDAO.listarExercicios()) {
+            treinosExercicios.add(new TreinoExercicio(e, DivisaoTreino.DIVISAO_A, 0, 0, 0, 0));
+        }
 
+        PDF pdf = new PDF();
+        try {
+            pdf.gerarPDF(treino);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MontaTreino.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //new MontaTreino(treino).setVisible(true);
     }
 
     private Endereco buscarCep(String cep) {
