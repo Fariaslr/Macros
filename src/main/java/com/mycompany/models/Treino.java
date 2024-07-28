@@ -1,6 +1,7 @@
 package com.mycompany.models;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "treinos")
-public class Treino implements Serializable{
+public class Treino implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,5 +79,17 @@ public class Treino implements Serializable{
 
     public void setTreinosExercicios(List<TreinoExercicio> treinosExercicios) {
         this.treinosExercicios = treinosExercicios;
+    }
+
+    public void moverExercicioParaCima(int indice) {
+        if (indice > 0 && indice < treinosExercicios.size()) {
+            Collections.swap(treinosExercicios, indice, indice - 1);
+        }
+    }
+
+    public void moverExercicioParaBaixo(int indice) {
+        if (indice >= 0 && indice < treinosExercicios.size() - 1) {
+            Collections.swap(treinosExercicios, indice, indice + 1);
+        }
     }
 }

@@ -41,14 +41,14 @@ public class Macros {
             treinosExercicios.add(new TreinoExercicio(e, DivisaoTreino.DIVISAO_A, 0, 0, 0, 0));
         }
 
-        PDF pdf = new PDF();
+        /*PDF pdf = new PDF();
         try {
             pdf.gerarPDF(treino);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MontaTreino.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
-        //new MontaTreino(treino).setVisible(true);
+        new MontaTreino(treino).setVisible(true);
     }
 
     private Endereco buscarCep(String cep) {

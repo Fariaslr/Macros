@@ -15,4 +15,10 @@ public enum DivisaoTreino {
     public String getAGRUPAMENTO() {
         return AGRUPAMENTO;
     }
+
+    @Override
+    public String toString() {
+        return getAGRUPAMENTO();
+    }
+    
 }
