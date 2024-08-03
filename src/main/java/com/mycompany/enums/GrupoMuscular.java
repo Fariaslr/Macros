@@ -27,4 +27,5 @@ public enum GrupoMuscular {
     public String toString() {
         return name(); // Retorna o nome do enum como string
     }
+
 }

@@ -27,7 +27,7 @@ public class Exercicio implements Serializable {
     @Column(length = 40)
     private String nome;
 
-    @Column(length = 3000)
+    @Column(length = 1000)
     private String descricao;
 
     @Column(name = "url_foto", length = 255)

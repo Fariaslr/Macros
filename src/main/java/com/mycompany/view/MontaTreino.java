@@ -1,7 +1,6 @@
 package com.mycompany.view;
 
 import com.mycompany.dao.ExercicioDAO;
-import com.mycompany.dao.TreinoDAO;
 import com.mycompany.enums.DivisaoTreino;
 import com.mycompany.resources.PDF;
 import com.mycompany.models.Exercicio;
@@ -100,9 +99,17 @@ public class MontaTreino extends javax.swing.JFrame {
 
         labelRepeticoes.setText("Repetições");
 
+        spinnerSeries.setModel(new javax.swing.SpinnerNumberModel(0, 0, 5, 1));
+
+        spinnerRepeticoes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
+
         labelCarga.setText("Carga (kg)");
 
         labelIntervalo.setText("Intervalo(segundos)");
+
+        spinnerIntervalo.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        spinnerCarga.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 1.0f));
 
         buttonMoverCima.setText("Cima");
         buttonMoverCima.addActionListener(new java.awt.event.ActionListener() {
@@ -149,11 +156,8 @@ public class MontaTreino extends javax.swing.JFrame {
                                     .addComponent(labelRepeticoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(spinnerRepeticoes, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                                 .addGap(42, 42, 42))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboDivisaoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelDivisaoTreino))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(comboDivisaoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelDivisaoTreino))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
@@ -192,8 +196,8 @@ public class MontaTreino extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboExercicios, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelCarga)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelCarga, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(labelIntervalo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -233,9 +237,7 @@ public class MontaTreino extends javax.swing.JFrame {
                     ((Number) spinnerCarga.getValue()).floatValue(),
                     (int) spinnerIntervalo.getValue()
             ));
-
             preencherTabelaExercicioTreinos(treinoExercicios);
-
         }
     }//GEN-LAST:event_buttonAdicionarActionPerformed
 
@@ -330,4 +332,5 @@ public class MontaTreino extends javax.swing.JFrame {
             });
         }
     }
+
 }

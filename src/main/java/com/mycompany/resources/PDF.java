@@ -24,10 +24,12 @@ public class PDF {
     Plano plano;
     Paciente paciente;
     EducadorFisico educadorFisico;
-    float fontSize = 10f;
+    float fontSize = 12f;
+    static float fontSizeDescricao = 10f;
     private static final int MARGIN = 10;
+    private static final int PADDING = 10;
     private static final DeviceRgb MARROM_ESCURO = new DeviceRgb(124, 76, 22);
-    private static final float IMAGE_WIDTH = 300f;  // Largura fixa da imagem
+    private static final float IMAGE_WIDTH = 300f;
     private static final float IMAGE_HEIGHT = 300f;
 
     public void gerarPDF(Treino treino) throws FileNotFoundException {
@@ -38,7 +40,8 @@ public class PDF {
         this.paciente = treino.getConsulta().getPlano().getPaciente();
         this.educadorFisico = treino.getEducadorFisico();
 
-        String path = "src/main/resources/relatorios/Plano de treino " + paciente.getNome() + " " + new SimpleDateFormat("dd-MM-yyyy").format(treino.getDataTreino()) + ".pdf";
+        String path = "src/main/resources/relatorios/Teste.pdf";
+        //String path = "src/main/resources/relatorios/Plano de treino " + paciente.getNome() + " " + new SimpleDateFormat("dd-MM-yyyy hh.mm.ss").format(treino.getDataTreino()) + ".pdf";
         try {
             PdfWriter pdfWriter = new PdfWriter(path);
             PdfDocument pdfDocument = new PdfDocument(pdfWriter);
@@ -56,6 +59,9 @@ public class PDF {
                 document.add(insereDivider());
                 document.add(criarTituloSessao("Dados específicos"));
                 document.add(mostrarDadosEspecificosPaciente());
+                document.add(new AreaBreak());
+                document.add(criarTituloSessao("Sumário"));
+                document.add(criarSumario());
 
                 for (TreinoExercicio treinoExercicio : treino.getTreinosExercicios()) {
                     document.add(new AreaBreak());
@@ -80,7 +86,7 @@ public class PDF {
         tabela.addCell(montarContainer("Objetivo", plano.getObjetivo().getDESCRICAO()));
         tabela.addCell(montarContainer("Educador físico", educadorFisico.getNome() + " " + educadorFisico.getSobrenome()
                 + " - Cref " + educadorFisico.getCref()));
-        tabela.addCell(montarContainer("Criado em", new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss ").format(treino.getDataTreino())));
+        tabela.addCell(montarContainer("Criado em", new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(treino.getDataTreino())));
 
         return tabela;
     }
@@ -103,10 +109,12 @@ public class PDF {
         tabelaCabecalho.setMarginBottom(MARGIN);
 
         tabelaCabecalho.setWidth(UnitValue.createPercentValue(100));
-        tabelaCabecalho.addCell(configurarTituloContainer(tituloContainer)
+        tabelaCabecalho.addCell(new Cell().add(tituloContainer).setBold().setBorder(Border.NO_BORDER)
                 .setFontSize(10)
                 .setBackgroundColor(MARROM_ESCURO)
-                .setFontColor(Color.WHITE));
+                .setFontColor(Color.WHITE))
+                .setPadding(PADDING)
+                .setFontSize(fontSize);
 
         return tabelaCabecalho;
     }
@@ -147,20 +155,22 @@ public class PDF {
     }
 
     private Table mostrarDadosEspecificosPaciente() {
-        Table tabelaDadosEspecificos = new Table(4);
-        tabelaDadosEspecificos.setWidth(UnitValue.createPercentValue(100));
+        Table tabelaDadosEspecificos = new Table(4)
+                .setWidth(UnitValue.createPercentValue(100))
+                .setMargin(MARGIN)
+                .setMarginTop(0);
 
         tabelaDadosEspecificos.addCell(montarContainer("Calorias Diárias: ", String.format("%.0f", consulta.calcularCaloriasDieta()) + " Kcal"));
         tabelaDadosEspecificos.addCell(montarContainer("Altura: ", consulta.getAltura() == 0 ? " - " : String.format("%.0f", consulta.getAltura()) + " cm"));
         tabelaDadosEspecificos.addCell(montarContainer("Peso: ", consulta.getPeso() == 0 ? " - " : String.format("%.3f", consulta.getPeso()) + " kg"));
         tabelaDadosEspecificos.addCell(montarContainer("Nível atividade: ", plano.getNivelAtividadeFisica().getDESCRICAO()));
-        tabelaDadosEspecificos.addCell(montarContainer("Percentual de gordura ", consulta.calcularPercentualGordura() == -450 ? " - " : String.format("%.2f", consulta.calcularPercentualGordura()) + " %"));
+        tabelaDadosEspecificos.addCell(montarContainer("Gordura (%)", consulta.calcularPercentualGordura() == -450 ? " - " : String.format("%.2f", consulta.calcularPercentualGordura()) + " %"));
         tabelaDadosEspecificos.addCell(montarContainer("Medida do Pescoço: ", consulta.getMedidaPescoco() == 0 ? " - " : String.format("%.0f", consulta.getMedidaPescoco()) + " cm"));
         tabelaDadosEspecificos.addCell(montarContainer("Medida da Cintura: ", consulta.getMedidaCintura() == 0 ? " - " : String.format("%.0f", consulta.getMedidaCintura()) + " cm"));
         if (paciente.getSexo() == Sexo.FEMININO) {
             tabelaDadosEspecificos.addCell(montarContainer("Circunferência da Quadril: ", consulta.getMedidaQuadril() == 0 ? " - " : String.valueOf(consulta.getMedidaQuadril()) + " cm"));
         }
-        //StabelaDadosEspecificos.addCell(getContainer("Número de Refeições: ", consulta.getNumeroRefeicoes() == 0 ? " - " : String.valueOf(consulta.getNumeroRefeicoes())));
+        //tabelaDadosEspecificos.addCell(getContainer("Número de Refeições: ", consulta.getNumeroRefeicoes() == 0 ? " - " : String.valueOf(consulta.getNumeroRefeicoes())));
 
         return tabelaDadosEspecificos;
     }
@@ -192,12 +202,24 @@ public class PDF {
         return cell;
     }
 
+    private Table criarSumario() {
+        Table tabelaSumario = new Table(new float[]{0.5f, 2, 3})
+                .setMargin(MARGIN)
+                .setWidthPercent(100);
+        for (int i = 0; i < treino.getTreinosExercicios().size(); i++) {
+            tabelaSumario.addCell(new Cell().add(i + 1 + ".").setBorder(Border.NO_BORDER));
+            tabelaSumario.addCell(new Cell().add(treino.getTreinosExercicios().get(i).getExercicio().getNome() + "").setFontSize(fontSize).setBold().setBorder(Border.NO_BORDER));
+            tabelaSumario.addCell(new Cell().add(Integer.toString(3 + i)).setFontSize(fontSize).setFontSize(fontSize).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+        }
+        return tabelaSumario;
+    }
+
     private Cell configurarTituloContainer(String titulo) {
-        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
+        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT);
     }
 
     private Cell configurarDescricaoContainer(String descricao) {
-        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(fontSize).setTextAlignment(TextAlignment.JUSTIFIED);
+        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(10f).setTextAlignment(TextAlignment.LEFT);
     }
 
     private void colocarMarginTabela(Table tabela) {
@@ -240,7 +262,8 @@ public class PDF {
     }
 
     private Cell carregarExecucaoExercicio(TreinoExercicio treinoExercicio) {
-        Cell rightCell = new Cell().setWidth(UnitValue.createPercentValue(100)).setBorder(Border.NO_BORDER);
+        Cell rightCell = new Cell().setWidth(UnitValue.createPercentValue(100))
+                .setBorder(Border.NO_BORDER);
 
         Table tabela = new Table(1).addCell(carregaDescricaoExercicio("Descrição do exercicio", treinoExercicio.getExercicio().getDescricao()));
 
@@ -255,7 +278,7 @@ public class PDF {
 
         rodape.addCell(getContainerColor("Séries", String.valueOf(treinoExercicio.getSeries())));
         rodape.addCell(getContainerColor("Repetições", String.valueOf(treinoExercicio.getRepeticoes())));
-        rodape.addCell(getContainerColor("Intervalo", (treinoExercicio.converterMinutos() == 0 ? " " : treinoExercicio.converterMinutos() + " min")
+        rodape.addCell(getContainerColor("Intervalo", (treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min")
                 + (treinoExercicio.mostrarSegundos() == 0 ? "" : treinoExercicio.mostrarSegundos() + " seg")));
         if (treinoExercicio.getCarga() > 1) {
             rodape.addCell(getContainerColor("Carga", String.valueOf(treinoExercicio.getCarga()) + " kg"));
@@ -290,7 +313,7 @@ public class PDF {
     }
 
     private Cell getDescricaoContainerColor(String descricao) {
-        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(fontSize).setTextAlignment(TextAlignment.CENTER).setPadding(5);
+        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(14).setTextAlignment(TextAlignment.CENTER).setPadding(5);
     }
 
     private Cell getLegendaImagem(String legenda) {
@@ -309,19 +332,15 @@ public class PDF {
         Table tabelaDados = new Table(1)
                 .setBorder(Border.NO_BORDER);
 
-        tabelaDados.addCell(configuraTitulo(titulo));
-        tabelaDados.addCell(configuraDescricaoExercicio(descricao));
+        tabelaDados.addCell(configuraTituloContainer(titulo));
+        tabelaDados.addCell(new Cell().add(new Paragraph(descricao)).setFontSize(fontSizeDescricao).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
 
         cell.add(tabelaDados);
 
         return cell;
     }
 
-    private Cell configuraTitulo(String titulo) {
-        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(14).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
-    }
-
-    private Cell configuraDescricaoExercicio(String descricao) {
-        return new Cell().add(new Paragraph(descricao)).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT);
+    private Cell configuraTituloContainer(String titulo) {
+        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
     }
 }

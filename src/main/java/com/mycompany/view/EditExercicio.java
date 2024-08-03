@@ -4,6 +4,7 @@ import com.mycompany.dao.ExercicioDAO;
 import com.mycompany.enums.GrupoMuscular;
 import com.mycompany.models.Exercicio;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class EditExercicio extends javax.swing.JFrame {
 
@@ -39,6 +40,7 @@ public class EditExercicio extends javax.swing.JFrame {
         labelURL = new javax.swing.JLabel();
         txtUrl = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
+        labelQuantidadeCaracter = new javax.swing.JLabel();
 
         labelGrupoMuscular.setText("Grupo Muscular");
 
@@ -48,6 +50,11 @@ public class EditExercicio extends javax.swing.JFrame {
 
         txtDescricao.setColumns(20);
         txtDescricao.setRows(5);
+        txtDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescricaoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtDescricao);
 
         labelURL.setText("URL foto");
@@ -59,6 +66,8 @@ public class EditExercicio extends javax.swing.JFrame {
             }
         });
 
+        labelQuantidadeCaracter.setText("Caracteres: 0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,8 +75,13 @@ public class EditExercicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelURL)
-                    .addComponent(labelDescricao)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelURL)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelDescricao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelQuantidadeCaracter))
                     .addComponent(jScrollPane1)
                     .addComponent(txtUrl)
                     .addGroup(layout.createSequentialGroup()
@@ -96,7 +110,9 @@ public class EditExercicio extends javax.swing.JFrame {
                     .addComponent(comboGrupoMuscular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNomeExercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelDescricao)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDescricao)
+                    .addComponent(labelQuantidadeCaracter))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -125,7 +141,7 @@ public class EditExercicio extends javax.swing.JFrame {
             modoEdicao = !modoEdicao;
             JOptionPane.showMessageDialog(this, "Exercício atualizado com sucesso.");
             this.dispose();
-            
+
         } else {
             GrupoMuscular grupoMuscularSelecionado = (GrupoMuscular) comboGrupoMuscular.getSelectedItem();
             exercicio = new Exercicio();
@@ -140,11 +156,16 @@ public class EditExercicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEnviarActionPerformed
 
+    private void txtDescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescricaoKeyPressed
+        labelQuantidadeCaracter.setText("Caracteres: "+ txtDescricao.getText().length());
+    }//GEN-LAST:event_txtDescricaoKeyPressed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(() -> {
             new EditExercicio().setVisible(true);
         });
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
@@ -153,6 +174,7 @@ public class EditExercicio extends javax.swing.JFrame {
     private javax.swing.JLabel labelDescricao;
     private javax.swing.JLabel labelGrupoMuscular;
     private javax.swing.JLabel labelNomeExercicio;
+    private javax.swing.JLabel labelQuantidadeCaracter;
     private javax.swing.JLabel labelURL;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtNomeExercicio;
