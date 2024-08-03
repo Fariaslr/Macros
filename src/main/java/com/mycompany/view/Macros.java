@@ -35,7 +35,7 @@ public class Macros {
         Treino treino = new Treino(new Date(), consulta, educadorFisico, treinosExercicios);
 
         for (Exercicio e : exercicioDAO.listarExercicios()) {
-            treinosExercicios.add(new TreinoExercicio(e, DivisaoTreino.DIVISAO_A, 4, 12, 0,60 ));
+            treinosExercicios.add(new TreinoExercicio(e, DivisaoTreino.DIVISAO_A, 4, 12, 2.5f,75 ));
         }
 
         PDF pdf = new PDF();

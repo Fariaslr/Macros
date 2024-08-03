@@ -4,6 +4,7 @@ import com.itextpdf.io.IOException;
 import com.itextpdf.io.image.*;
 import com.itextpdf.kernel.color.*;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.*;
 import com.itextpdf.layout.border.*;
@@ -29,6 +30,7 @@ public class PDF {
     private static final int MARGIN = 10;
     private static final int PADDING = 10;
     private static final DeviceRgb MARROM_ESCURO = new DeviceRgb(124, 76, 22);
+    private static final DeviceRgb AZUL_MARINHO = new DeviceRgb(0, 64, 128);
     private static final float IMAGE_WIDTH = 300f;
     private static final float IMAGE_HEIGHT = 300f;
 
@@ -67,6 +69,7 @@ public class PDF {
                     document.add(new AreaBreak());
                     document.add(montarPaginaExercicio(treinoExercicio));
                 }
+                    
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -104,17 +107,23 @@ public class PDF {
 
     private Table criarTituloSessao(String tituloContainer) {
 
-        Table tabelaCabecalho = new Table(1);
-        tabelaCabecalho.setMarginTop(MARGIN);
-        tabelaCabecalho.setMarginBottom(MARGIN);
-
-        tabelaCabecalho.setWidth(UnitValue.createPercentValue(100));
-        tabelaCabecalho.addCell(new Cell().add(tituloContainer).setBold().setBorder(Border.NO_BORDER)
-                .setFontSize(10)
-                .setBackgroundColor(MARROM_ESCURO)
-                .setFontColor(Color.WHITE))
-                .setPadding(PADDING)
-                .setFontSize(fontSize);
+        Table tabelaCabecalho = new Table(1)
+                .setMarginTop(MARGIN)
+                .setMarginBottom(MARGIN)
+                .setWidth(UnitValue.createPercentValue(100))
+                .setHeight(30)
+                .addCell(
+                new Cell().add(tituloContainer)
+                        .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                        .setBold()
+                        .setBorder(Border.NO_BORDER)
+                        .setFontSize(fontSize)
+                        .setBackgroundColor(AZUL_MARINHO)
+                        .setFontColor(Color.WHITE)
+                        .setPaddingLeft(PADDING)
+                        
+                );
 
         return tabelaCabecalho;
     }
@@ -186,6 +195,7 @@ public class PDF {
         return tabelaExercicio;
     }
 
+
     private Cell montarContainer(String titulo, String descricao) {
         Cell cell = new Cell()
                 .setPadding(5)
@@ -232,7 +242,7 @@ public class PDF {
                 .setBorder(Border.NO_BORDER)
                 .setBold()
                 .setFontSize(14f)
-                .setBackgroundColor(MARROM_ESCURO)
+                .setBackgroundColor(AZUL_MARINHO)
                 .setFontColor(Color.WHITE)
                 .setTextAlignment(TextAlignment.CENTER)
                 .setPadding(10);
@@ -265,55 +275,118 @@ public class PDF {
         Cell rightCell = new Cell().setWidth(UnitValue.createPercentValue(100))
                 .setBorder(Border.NO_BORDER);
 
-        Table tabela = new Table(1).addCell(carregaDescricaoExercicio("Descrição do exercicio", treinoExercicio.getExercicio().getDescricao()));
+        Table tabelaExercicio = new Table(1)
+                .addCell(
+                        carregaDescricaoExercicio(
+                                "Descrição do exercicio",
+                                treinoExercicio.getExercicio().getDescricao()
+                        )
+                );
 
-        rightCell.add(tabela);
-        rightCell.add(constroiRodape(treinoExercicio));
+        rightCell.add(tabelaExercicio);
+        rightCell.add(treinoExercicio.getCarga() < 1 ? constroiRodape(treinoExercicio) : constroiRodapeCompleto(treinoExercicio));
 
         return rightCell;
     }
 
     private Table constroiRodape(TreinoExercicio treinoExercicio) {
-        Table rodape = new Table(4).setBorder(Border.NO_BORDER).setWidth(UnitValue.createPercentValue(100));
+        Table rodape = new Table(3)
+                .setBorder(Border.NO_BORDER)
+                .setWidth(UnitValue.createPercentValue(100))
+                .setMarginTop(MARGIN);
 
-        rodape.addCell(getContainerColor("Séries", String.valueOf(treinoExercicio.getSeries())));
-        rodape.addCell(getContainerColor("Repetições", String.valueOf(treinoExercicio.getRepeticoes())));
-        rodape.addCell(getContainerColor("Intervalo", (treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min")
-                + (treinoExercicio.mostrarSegundos() == 0 ? "" : treinoExercicio.mostrarSegundos() + " seg")));
-        if (treinoExercicio.getCarga() > 1) {
-            rodape.addCell(getContainerColor("Carga", String.valueOf(treinoExercicio.getCarga()) + " kg"));
-        }
+        rodape.addCell(getContainerColor(
+                "Séries",
+                String.valueOf(treinoExercicio.getSeries()),
+                "src/main/resources/image/dumbell.png")
+        );
+
+        rodape.addCell(getContainerColor(
+                "Repetições",
+                String.valueOf(treinoExercicio.getRepeticoes()),
+                "src/main/resources/image/loop.png")
+        );
+
+        rodape.addCell(getContainerColor(
+                "Intervalo",
+                treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min" + (treinoExercicio.mostrarSegundos() == 0 ? "" : " e " + treinoExercicio.mostrarSegundos() + " seg"),
+                "src/main/resources/image/sleep.png"));
 
         return rodape;
     }
 
-    private Cell getContainerColor(String titulo, String descricao) {
-        Cell cell = new Cell().setPadding(5).setBorder(Border.NO_BORDER);
-
-        Table tabelaDados = new Table(1);
-        tabelaDados.setBorder(Border.NO_BORDER);
-
-        tabelaDados.addCell(getTituloContainerColor(titulo));
-        tabelaDados.addCell(getDescricaoContainerColor(descricao));
-
-        cell.add(tabelaDados);
-
-        return cell;
-    }
-
-    private Cell getTituloContainerColor(String titulo) {
-        return new Cell().add(titulo)
-                .setFontSize(fontSize)
-                .setBold()
+    private Table constroiRodapeCompleto(TreinoExercicio treinoExercicio) {
+        Table rodape = new Table(2)
                 .setBorder(Border.NO_BORDER)
-                .setTextAlignment(TextAlignment.CENTER)
-                .setBackgroundColor(MARROM_ESCURO)
-                .setFontColor(Color.WHITE)
-                .setPadding(5);
+                .setWidth(UnitValue.createPercentValue(100))
+                .setMarginTop(MARGIN);
+
+        rodape.addCell(getContainerColor(
+                "Séries",
+                String.valueOf(treinoExercicio.getSeries()),
+                "src/main/resources/image/dumbell.png")
+        );
+
+        rodape.addCell(getContainerColor(
+                "Repetições",
+                String.valueOf(treinoExercicio.getRepeticoes()),
+                "src/main/resources/image/loop.png")
+        );
+
+        rodape.addCell(getContainerColor(
+                "Intervalo",
+                treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min" + (treinoExercicio.mostrarSegundos() == 0 ? "" : " e " + treinoExercicio.mostrarSegundos() + " seg"),
+                "src/main/resources/image/sleep.png"));
+
+        rodape.addCell(getContainerColor(
+                "Carga",
+                String.valueOf(treinoExercicio.getCarga()) + " kg",
+                "src/main/resources/image/weight.png")
+        );
+
+        return rodape;
     }
 
-    private Cell getDescricaoContainerColor(String descricao) {
-        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(14).setTextAlignment(TextAlignment.CENTER).setPadding(5);
+    private Cell getContainerColor(String titulo, String descricao, String imageLocal) {
+        Table tabelaRodape = new Table(new float[]{0.5f, 1f})
+                .setWidthPercent(100)
+                .setBorder(Border.NO_BORDER);
+
+        try {
+            ImageData imageData = ImageDataFactory.create(imageLocal);
+            Image image = new Image(imageData)
+                    .setHorizontalAlignment(HorizontalAlignment.RIGHT);
+
+            tabelaRodape.addCell(new Cell().add(image)
+                    .setBackgroundColor(AZUL_MARINHO)
+                    .setPadding(5)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            tabelaRodape.addCell(new Cell().add(descricao + " - " + titulo)
+                    .setFontSize(fontSize)
+                    .setBold()
+                    .setBorder(Border.NO_BORDER)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBackgroundColor(AZUL_MARINHO)
+                    .setFontColor(Color.WHITE)
+                    .setPadding(5));
+
+            return new Cell().add(tabelaRodape)
+                    .setBorder(Border.NO_BORDER);
+
+        } catch (Exception e) {
+
+            return new Cell().add(titulo)
+                    .setFontSize(fontSize)
+                    .setBold()
+                    .setBorder(Border.NO_BORDER)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setBackgroundColor(AZUL_MARINHO)
+                    .setFontColor(Color.WHITE)
+                    .setPadding(5);
+
+        }
     }
 
     private Cell getLegendaImagem(String legenda) {
@@ -343,4 +416,5 @@ public class PDF {
     private Cell configuraTituloContainer(String titulo) {
         return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
     }
+
 }
