@@ -4,7 +4,6 @@ import com.itextpdf.io.IOException;
 import com.itextpdf.io.image.*;
 import com.itextpdf.kernel.color.*;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.*;
 import com.itextpdf.layout.border.*;
@@ -33,6 +32,7 @@ public class PDF {
     private static final DeviceRgb AZUL_MARINHO = new DeviceRgb(0, 64, 128);
     private static final float IMAGE_WIDTH = 300f;
     private static final float IMAGE_HEIGHT = 300f;
+    private static final float SIZE_ICON = 16f;
 
     public void gerarPDF(Treino treino) throws FileNotFoundException {
 
@@ -69,7 +69,7 @@ public class PDF {
                     document.add(new AreaBreak());
                     document.add(montarPaginaExercicio(treinoExercicio));
                 }
-                    
+
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -89,7 +89,7 @@ public class PDF {
         tabela.addCell(montarContainer("Objetivo", plano.getObjetivo().getDESCRICAO()));
         tabela.addCell(montarContainer("Educador físico", educadorFisico.getNome() + " " + educadorFisico.getSobrenome()
                 + " - Cref " + educadorFisico.getCref()));
-        tabela.addCell(montarContainer("Criado em", new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(treino.getDataTreino())));
+        tabela.addCell(montarContainer("Criado em", new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(treino.getDataTreino())));
 
         return tabela;
     }
@@ -113,16 +113,15 @@ public class PDF {
                 .setWidth(UnitValue.createPercentValue(100))
                 .setHeight(30)
                 .addCell(
-                new Cell().add(tituloContainer)
-                        .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                        .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                        .setBold()
-                        .setBorder(Border.NO_BORDER)
-                        .setFontSize(fontSize)
-                        .setBackgroundColor(AZUL_MARINHO)
-                        .setFontColor(Color.WHITE)
-                        .setPaddingLeft(PADDING)
-                        
+                        new Cell().add(tituloContainer)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setBold()
+                                .setBorder(Border.NO_BORDER)
+                                .setFontSize(fontSize)
+                                .setBackgroundColor(AZUL_MARINHO)
+                                .setFontColor(Color.WHITE)
+                                .setPaddingLeft(PADDING)
                 );
 
         return tabelaCabecalho;
@@ -195,7 +194,6 @@ public class PDF {
         return tabelaExercicio;
     }
 
-
     private Cell montarContainer(String titulo, String descricao) {
         Cell cell = new Cell()
                 .setPadding(5)
@@ -204,8 +202,8 @@ public class PDF {
         Table tabelaDados = new Table(1)
                 .setBorder(Border.NO_BORDER);
 
-        tabelaDados.addCell(configurarTituloContainer(titulo));
-        tabelaDados.addCell(configurarDescricaoContainer(descricao));
+        tabelaDados.addCell(new Cell().add(titulo).setBold().setBorder(Border.NO_BORDER).setFontSize(fontSize));
+        tabelaDados.addCell(new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(fontSizeDescricao));
 
         cell.add(tabelaDados);
 
@@ -217,19 +215,11 @@ public class PDF {
                 .setMargin(MARGIN)
                 .setWidthPercent(100);
         for (int i = 0; i < treino.getTreinosExercicios().size(); i++) {
-            tabelaSumario.addCell(new Cell().add(i + 1 + ".").setBorder(Border.NO_BORDER));
-            tabelaSumario.addCell(new Cell().add(treino.getTreinosExercicios().get(i).getExercicio().getNome() + "").setFontSize(fontSize).setBold().setBorder(Border.NO_BORDER));
+            tabelaSumario.addCell(new Cell().add(i + 1 + ".").setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.RIGHT));
+            tabelaSumario.addCell(new Cell().add(treino.getTreinosExercicios().get(i).getExercicio().getNome() + "").setFontSize(fontSize).setBold().setBorder(Border.NO_BORDER).setHorizontalAlignment(HorizontalAlignment.LEFT));
             tabelaSumario.addCell(new Cell().add(Integer.toString(3 + i)).setFontSize(fontSize).setFontSize(fontSize).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
         }
         return tabelaSumario;
-    }
-
-    private Cell configurarTituloContainer(String titulo) {
-        return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT);
-    }
-
-    private Cell configurarDescricaoContainer(String descricao) {
-        return new Cell().add(descricao).setBorder(Border.NO_BORDER).setFontSize(10f).setTextAlignment(TextAlignment.LEFT);
     }
 
     private void colocarMarginTabela(Table tabela) {
@@ -276,11 +266,10 @@ public class PDF {
                 .setBorder(Border.NO_BORDER);
 
         Table tabelaExercicio = new Table(1)
-                .addCell(
-                        carregaDescricaoExercicio(
-                                "Descrição do exercicio",
-                                treinoExercicio.getExercicio().getDescricao()
-                        )
+                .addCell(carregaDescricaoExercicio(
+                        "Descrição do exercicio",
+                        treinoExercicio.getExercicio().getDescricao()
+                )
                 );
 
         rightCell.add(tabelaExercicio);
@@ -298,19 +287,19 @@ public class PDF {
         rodape.addCell(getContainerColor(
                 "Séries",
                 String.valueOf(treinoExercicio.getSeries()),
-                "src/main/resources/image/dumbell.png")
+                "dumbell")
         );
 
         rodape.addCell(getContainerColor(
                 "Repetições",
                 String.valueOf(treinoExercicio.getRepeticoes()),
-                "src/main/resources/image/loop.png")
+                "loop")
         );
 
         rodape.addCell(getContainerColor(
                 "Intervalo",
-                treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min" + (treinoExercicio.mostrarSegundos() == 0 ? "" : " e " + treinoExercicio.mostrarSegundos() + " seg"),
-                "src/main/resources/image/sleep.png"));
+                treinoExercicio.mostrarIntevalo() == null ? " - " : treinoExercicio.mostrarIntevalo(),
+                "sleep"));
 
         return rodape;
     }
@@ -324,40 +313,36 @@ public class PDF {
         rodape.addCell(getContainerColor(
                 "Séries",
                 String.valueOf(treinoExercicio.getSeries()),
-                "src/main/resources/image/dumbell.png")
+                "dumbbell")
         );
 
         rodape.addCell(getContainerColor(
                 "Repetições",
                 String.valueOf(treinoExercicio.getRepeticoes()),
-                "src/main/resources/image/loop.png")
+                "loop")
         );
 
         rodape.addCell(getContainerColor(
                 "Intervalo",
-                treinoExercicio.converterMinutos() == 0 ? " - " : treinoExercicio.converterMinutos() + " min" + (treinoExercicio.mostrarSegundos() == 0 ? "" : " e " + treinoExercicio.mostrarSegundos() + " seg"),
-                "src/main/resources/image/sleep.png"));
+                treinoExercicio.mostrarIntevalo() == null ? " - " : treinoExercicio.mostrarIntevalo(),
+                "sleep"));
 
         rodape.addCell(getContainerColor(
                 "Carga",
                 String.valueOf(treinoExercicio.getCarga()) + " kg",
-                "src/main/resources/image/weight.png")
+                "weight")
         );
 
         return rodape;
     }
 
     private Cell getContainerColor(String titulo, String descricao, String imageLocal) {
-        Table tabelaRodape = new Table(new float[]{0.5f, 1f})
+        Table tabelaRodape = new Table(new float[]{1f, 1f})
                 .setWidthPercent(100)
                 .setBorder(Border.NO_BORDER);
 
         try {
-            ImageData imageData = ImageDataFactory.create(imageLocal);
-            Image image = new Image(imageData)
-                    .setHorizontalAlignment(HorizontalAlignment.RIGHT);
-
-            tabelaRodape.addCell(new Cell().add(image)
+            tabelaRodape.addCell(new Cell().add(carregarIcone(imageLocal))
                     .setBackgroundColor(AZUL_MARINHO)
                     .setPadding(5)
                     .setBorder(Border.NO_BORDER)
@@ -367,6 +352,7 @@ public class PDF {
                     .setFontSize(fontSize)
                     .setBold()
                     .setBorder(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setBackgroundColor(AZUL_MARINHO)
                     .setFontColor(Color.WHITE)
@@ -406,7 +392,7 @@ public class PDF {
                 .setBorder(Border.NO_BORDER);
 
         tabelaDados.addCell(configuraTituloContainer(titulo));
-        tabelaDados.addCell(new Cell().add(new Paragraph(descricao)).setFontSize(fontSizeDescricao).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
+        tabelaDados.addCell(new Cell().add(descricao).setFontSize(fontSizeDescricao).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
 
         cell.add(tabelaDados);
 
@@ -415,6 +401,14 @@ public class PDF {
 
     private Cell configuraTituloContainer(String titulo) {
         return new Cell().add(new Paragraph(titulo).setBold()).setFontSize(fontSize).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED);
+    }
+
+    private Image carregarIcone(String imageLocal) throws MalformedURLException {
+        ImageData imageData = ImageDataFactory.create("src/main/resources/image/" + imageLocal + ".png");
+        Image image = new Image(imageData)
+                .setHorizontalAlignment(HorizontalAlignment.RIGHT)
+                .scaleToFit(SIZE_ICON, SIZE_ICON);
+        return image;
     }
 
 }

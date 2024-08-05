@@ -11,28 +11,28 @@ public class TreinoExercicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-	@Enumerated(EnumType.STRING)
-	private DivisaoTreino divisao;
+    @Enumerated(EnumType.STRING)
+    private DivisaoTreino divisao;
 
-	@ManyToOne
-	@JoinColumn(name = "exercicio_id", nullable = false)
-	private Exercicio exercicio;
+    @ManyToOne
+    @JoinColumn(name = "exercicio_id", nullable = false)
+    private Exercicio exercicio;
 
-	@ManyToOne
-	@JoinColumn(name = "treino_id", nullable = false)
-	private Treino treino;
+    @ManyToOne
+    @JoinColumn(name = "treino_id", nullable = false)
+    private Treino treino;
 
-	private int series;
+    private int series;
 
-	private int repeticoes;
+    private int repeticoes;
 
-	private float carga;
+    private float carga;
 
-	private int intervaloSerie;
+    private int intervaloSerie;
 
     public TreinoExercicio() {
     }
@@ -109,15 +109,9 @@ public class TreinoExercicio implements Serializable {
     public void setTreino(Treino treino) {
         this.treino = treino;
     }
-    
-    
 
-    public int converterMinutos() {
-        return this.intervaloSerie / 60;
-    }
-
-    public int mostrarSegundos() {
-        return this.intervaloSerie % 60;
+    public String mostrarIntevalo() {
+        return this.intervaloSerie / 60 + "min" + (intervaloSerie % 60 == 0 ? "" : " e " + intervaloSerie % 60 + " seg");
     }
 
     @Override

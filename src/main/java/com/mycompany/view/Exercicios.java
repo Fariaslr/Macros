@@ -5,8 +5,6 @@ import com.mycompany.models.Exercicio;
 
 import com.mycompany.resources.CenterRenderer;
 import com.mycompany.resources.ImageRender;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.*;
@@ -18,8 +16,7 @@ public class Exercicios extends javax.swing.JFrame {
 
     public Exercicios() {
         initComponents();
-        initTableExercicios();
-        
+        initTableExercicios();        
     }
 
     @SuppressWarnings("unchecked")
