@@ -1,6 +1,7 @@
 package com.mycompany.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.mycompany.manager.FormsManager;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -28,6 +29,7 @@ public class Login extends JPanel {
         txtPassword = new JPasswordField();
         chRememberMe = new JCheckBox("Lembre de mim");
         cmdLogin = new JButton("Entrar");
+        
         JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"
@@ -37,11 +39,17 @@ public class Login extends JPanel {
 
         txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]background:darken(@background,10%);"
+                + "[dark]background:lighten(@background,10%);"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0");
 
-        txtUserName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your user or email");
-        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+        txtUserName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o email ou usuario");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira a senha");
 
-        JLabel labelTitle = new JLabel("Welcome back!");
+        JLabel labelTitle = new JLabel("Macros");
         labelTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +10");
         JLabel labelDescription = new JLabel("Faça o login para acessar sua conta");
@@ -64,27 +72,24 @@ public class Login extends JPanel {
     }
 
     private Component createSignupLable() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
-        panel.putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:null");
-        JButton cmdRegister = new JButton("<html><a href=\"#\">Sign up<a/><html>");
-        cmdRegister.putClientProperty(FlatClientProperties.STYLE, ""
-                + "border:3,3,3,3");
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" + "background:null");
+        JButton cmdRegister = new JButton("<html><a href=\"#\">Cadastrar-se<a/><html>");
+        cmdRegister.putClientProperty(FlatClientProperties.STYLE, "" + "border:3,3,3,3");
         cmdRegister.setContentAreaFilled(false);
         cmdRegister.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmdRegister.addActionListener(e -> {
-            System.out.println("Go Sign form");
-            // Next update
+            FormsManager.getInstance().showForm(new Register());
         });
-        
-        JLabel label = new JLabel("Don't have an account?");
+
+        JLabel label = new JLabel("Não tem conta?");
         label.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]foreground:lighten(@foreground,30%);"
                 + "[dark]foreground:darken(@foreground,30%);");
-        
+
         panel.add(label);
         panel.add(cmdRegister);
-        
+
         return panel;
     }
 
