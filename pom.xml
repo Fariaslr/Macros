@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>com.mycompany.view.Application</exec.mainClass>
+        <exec.mainClass>com.mycompany.view.Main</exec.mainClass>
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
     <dependencies>
@@ -96,6 +96,12 @@
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
             <version>11.4</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>net.java.timingframework</groupId>
+            <artifactId>timingframework-core</artifactId>
+            <version>0.55</version>
         </dependency>
         
     </dependencies>
